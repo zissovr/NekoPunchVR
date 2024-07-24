@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FishPhysics : MonoBehaviour
@@ -10,9 +8,13 @@ public class FishPhysics : MonoBehaviour
     //ターゲットEasyのスコア
     public int targetEasyScore = 8;
 
+
     private void Start()
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, force), ForceMode.Acceleration);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        //向いている方向に力を加える
+        rb.AddForce(transform.forward * force, ForceMode.Acceleration);
+
     }
 
     private void OnCollisionEnter(Collision collision)
