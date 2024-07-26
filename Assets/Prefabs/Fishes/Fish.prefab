@@ -63,6 +63,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 200
   targetEasyScore: 8
+  hitFishEffect: {fileID: 6116628629696746932, guid: 8ed6fc1f0945d1045b04fc65f506f134,
+    type: 3}
 --- !u!54 &8179913413698144495
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -97,7 +99,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722060936462307928}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: cf2373e7c9d3fbe4f962c0fd437bb126, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

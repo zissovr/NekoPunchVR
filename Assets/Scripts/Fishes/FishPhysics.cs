@@ -8,6 +8,8 @@ public class FishPhysics : MonoBehaviour
     //ターゲットEasyのスコア
     public int targetEasyScore = 8;
 
+    //魚にヒットしたときのエフェクト
+    public GameObject hitFishEffect;
 
     private void Start()
     {
@@ -38,7 +40,7 @@ public class FishPhysics : MonoBehaviour
             NekopunchManager.instance.AddNekoPunch(1);
 
             //パーティクル表示
-            //GetComponent<ParticleSystem>().Play();
+            Instantiate(hitFishEffect, transform.position, Quaternion.identity);
         }
     }
 }
