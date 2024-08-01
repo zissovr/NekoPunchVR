@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +12,11 @@ public class ScoreManager : MonoBehaviour
 
     public int currentScore;
     public int highScore;
+
+    public int SpawnedFish;
+    public int HitFish;
+    public int MissedFish;
+    public float Accuracy => HitFish / (float)(HitFish + MissedFish);
 
     private void Awake()
     {

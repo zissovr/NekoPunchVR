@@ -2410,6 +2410,9 @@ MonoBehaviour:
   finalScoreText: {fileID: 705714721}
   currentScore: 0
   highScore: 0
+  SpawnedFish: 0
+  HitFish: 0
+  MissedFish: 0
 --- !u!1 &799716930
 GameObject:
   m_ObjectHideFlags: 0
@@ -4086,7 +4089,7 @@ MonoBehaviour:
   finalScoreUI_Gameobject: {fileID: 610832393}
   rankingUI_Gameobject: {fileID: 1084100352}
   nekopunchUI_Gameobject: {fileID: 1245410875}
-  mirror_Gameobject: {fileID: 188613432}
+  mirror_Gameobject: {fileID: 0}
   fishSpawnManager: {fileID: 1085596226}
   rightRayInteractor: {fileID: 381008927}
   leftRayInteractor: {fileID: 1625932946}

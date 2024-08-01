@@ -16,6 +16,7 @@ public class FishPhysics : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         //向いている方向に力を加える
         rb.AddForce(transform.forward * force, ForceMode.Acceleration);
+        ScoreManager.instance.SpawnedFish++;
 
     }
 
@@ -30,6 +31,7 @@ public class FishPhysics : MonoBehaviour
             //音を鳴らしスコア追加
             AudioManager.instance.hitSound.Play();
             ScoreManager.instance.AddScore(targetEasyScore);
+            ScoreManager.instance.HitFish++;
         }
 
         //魚が猫ハンドに当たった猫パンチ数を追加
@@ -38,6 +40,7 @@ public class FishPhysics : MonoBehaviour
             //音を鳴らしパンチ数追加
             AudioManager.instance.punchSound.Play();
             NekopunchManager.instance.AddNekoPunch(1);
+            ScoreManager.instance.HitFish++;
 
             //パーティクル表示
             Instantiate(hitFishEffect, transform.position, Quaternion.identity);

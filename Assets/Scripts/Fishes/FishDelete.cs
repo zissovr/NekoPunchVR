@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FishDelete : MonoBehaviour
@@ -6,7 +7,8 @@ public class FishDelete : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, DeleteTime);
+        StartCoroutine(DestroyTimer());
+
     }
 
     private void Update()
@@ -14,13 +16,26 @@ public class FishDelete : MonoBehaviour
         if (transform.position.z <= -10f)
         {
             Destroy(gameObject);
+            ScoreManager.instance.MissedFish++;
         }
 
         if (transform.position.x > 17f || transform.position.x < -17f)
         {
             Destroy(gameObject);
+            ScoreManager.instance.MissedFish++;
         }
 
+
+    }
+
+    private IEnumerator DestroyTimer()
+    {
+        yield return new WaitForSeconds(DeleteTime);
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+            ScoreManager.instance.MissedFish++;
+        }
 
     }
 }
