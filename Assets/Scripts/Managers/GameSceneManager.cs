@@ -18,8 +18,9 @@ public class GameSceneManager : MonoBehaviour
     public GameObject finalScoreUI_Gameobject;
     public GameObject rankingUI_Gameobject;
     public GameObject nekopunchUI_Gameobject;
-    //鏡のオブジェクト
+    //鏡と操作パネルのオブジェクト
     public GameObject mirror_Gameobject;
+    public GameObject deckPanel_Gameobject;
 
     [Header("Managers")]
     public GameObject fishSpawnManager;
@@ -57,8 +58,9 @@ public class GameSceneManager : MonoBehaviour
         currentScoreUI_Gameobject.SetActive(true);
         restartButtonUI_Gameobject.SetActive(false);
 
-        //鏡の非表示
+        //鏡と操作パネルの非表示
         mirror_Gameobject.SetActive(false);
+        deckPanel_Gameobject.SetActive(false);
 
         //移動を制限
         moveLocomotion.SetActive(false);
@@ -103,8 +105,9 @@ public class GameSceneManager : MonoBehaviour
         currentScoreUI_Gameobject.SetActive(false);
         restartButtonUI_Gameobject.SetActive(true);
 
-        //鏡の非表示
+        //鏡と操作パネルの非表示
         mirror_Gameobject.SetActive(true);
+        deckPanel_Gameobject.SetActive(true);
 
         //レイの表示
         rightxrRay.enabled = true;
