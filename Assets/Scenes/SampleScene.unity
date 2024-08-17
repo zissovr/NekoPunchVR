@@ -1741,6 +1741,7 @@ MonoBehaviour:
   textures:
   - {fileID: 2800000, guid: 38462bb731de2134b90c88d741beb86d, type: 3}
   - {fileID: 2800000, guid: 710a7db1c22cd2048846f5acedbb7628, type: 3}
+  - {fileID: 2800000, guid: 4f47cc1fccc91dd41ad9b9a92a1c5287, type: 3}
 --- !u!114 &1007936824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3070836376279176981, guid: 4595cd61b95c95e46b6201e33ca3f974,
