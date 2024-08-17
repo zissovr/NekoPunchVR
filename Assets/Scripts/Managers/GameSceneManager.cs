@@ -20,6 +20,7 @@ public class GameSceneManager : MonoBehaviour
     public GameObject nekopunchUI_Gameobject;
     //鏡と操作パネルのオブジェクト
     public GameObject mirror_Gameobject;
+    public GameObject mirrorButton_Gameobject;
     public GameObject deckPanel_Gameobject;
 
     [Header("Managers")]
@@ -60,6 +61,7 @@ public class GameSceneManager : MonoBehaviour
 
         //鏡と操作パネルの非表示
         mirror_Gameobject.SetActive(false);
+        mirrorButton_Gameobject.SetActive(false);
         deckPanel_Gameobject.SetActive(false);
 
         //移動を制限
@@ -107,6 +109,7 @@ public class GameSceneManager : MonoBehaviour
 
         //鏡と操作パネルの非表示
         mirror_Gameobject.SetActive(true);
+        mirrorButton_Gameobject.SetActive(true);
         deckPanel_Gameobject.SetActive(true);
 
         //レイの表示
@@ -137,5 +140,17 @@ public class GameSceneManager : MonoBehaviour
     public void OnClickBackToScene()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    //次のテクスチャに変更するボタン
+    public void OnClickChangeTexture()
+    {
+        TextureChanger.instance.ChangeNextTexture();
+    }
+
+    //前のテクスチャに変更するボタン
+    public void OnClickPreviousChangeTexture()
+    {
+        TextureChanger.instance.ChangePreviousTexture();
     }
 }
