@@ -22,6 +22,8 @@ public class GameSceneManager : MonoBehaviour
     public GameObject mirror_Gameobject;
     public GameObject mirrorButton_Gameobject;
     public GameObject deckPanel_Gameobject;
+    //スコアターゲットのオブジェクト
+    public GameObject targets_Gameobject;
 
     [Header("Managers")]
     public GameObject fishSpawnManager;
@@ -63,6 +65,9 @@ public class GameSceneManager : MonoBehaviour
         mirror_Gameobject.SetActive(false);
         mirrorButton_Gameobject.SetActive(false);
         deckPanel_Gameobject.SetActive(false);
+
+        //ターゲットの表示
+        targets_Gameobject.SetActive(true);
 
         //移動を制限
         moveLocomotion.SetActive(false);
@@ -107,10 +112,13 @@ public class GameSceneManager : MonoBehaviour
         currentScoreUI_Gameobject.SetActive(false);
         restartButtonUI_Gameobject.SetActive(true);
 
-        //鏡と操作パネルの非表示
+        //鏡と操作パネルの表示
         mirror_Gameobject.SetActive(true);
         mirrorButton_Gameobject.SetActive(true);
         deckPanel_Gameobject.SetActive(true);
+
+        //ターゲットの非表示
+        targets_Gameobject.SetActive(false);
 
         //レイの表示
         rightxrRay.enabled = true;

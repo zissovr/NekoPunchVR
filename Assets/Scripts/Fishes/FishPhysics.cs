@@ -8,6 +8,9 @@ public class FishPhysics : MonoBehaviour
     //ターゲットEasyのスコア
     public int targetEasyScore = 8;
 
+    //ターゲットMoveのスコア
+    public int targetMoveScore = 12;
+
     //魚にヒットしたときのエフェクト
     public GameObject hitFishEffect;
 
@@ -31,6 +34,18 @@ public class FishPhysics : MonoBehaviour
             //音を鳴らしスコア追加
             AudioManager.instance.hitSound.Play();
             ScoreManager.instance.AddScore(targetEasyScore);
+            ScoreManager.instance.HitFish++;
+        }
+
+        //魚がターゲットMoveに当たったら
+        if (collision.gameObject.CompareTag("TargetMove"))
+        {
+            Destroy(this.gameObject);
+            Destroy(collision.gameObject);
+
+            //音を鳴らしスコア追加
+            AudioManager.instance.hitSound.Play();
+            ScoreManager.instance.AddScore(targetMoveScore);
             ScoreManager.instance.HitFish++;
         }
 
