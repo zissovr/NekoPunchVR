@@ -579,10 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playArea: {fileID: 0}
-  areaSplit: {x: 5, y: 3}
-  fishDistance: 10
-  spawnMode: 2
-  forceAngle: 0
+  profile: {fileID: 11400000, guid: a035e49e0ca25914c8351ff38103dd93, type: 2}
   fishPrefabs:
   - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
   - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
@@ -640,6 +637,9 @@ MonoBehaviour:
   rankingUI_Gameobject: {fileID: 0}
   nekopunchUI_Gameobject: {fileID: 0}
   mirror_Gameobject: {fileID: 0}
+  mirrorButton_Gameobject: {fileID: 0}
+  deckPanel_Gameobject: {fileID: 0}
+  targets_Gameobject: {fileID: 0}
   fishSpawnManager: {fileID: 7542708650094139048}
   rightRayInteractor: {fileID: 0}
   leftRayInteractor: {fileID: 0}

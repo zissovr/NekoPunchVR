@@ -1,87 +1,69 @@
-using System.Collections;
 using UnityEngine;
 
 public class FishSpawnManager : MonoBehaviour
 {
     [SerializeField]
     private Transform playArea;
-    [SerializeField]
-    private Vector2Int areaSplit;
-    [SerializeField]
-    private float fishDistance;
-    [SerializeField]
-    private SpawnMode spawnMode;
 
-    [Delayed]
     [SerializeField]
-    private float forceAngle;
+    private SpawnProfile profile;
+
     //魚の種類
     public GameObject[] fishPrefabs;
 
     private int indexFish;
 
+    private float angleCenter;
+    private float angleRange;
 
-    //魚スポーンのタイミング
-    public float timeRate;
+
+    private float angleTimer;
 
     void Start()
     {
-        if (spawnMode == SpawnMode.Front)
-            StartCoroutine(CreateFishes());
-        else
-            StartCoroutine(AroundSpawn());
+        StartCoroutine(profile.TimeRate.DelayCoroutine(new SpawnOperation(this)));
+        angleTimer = 0;
+
     }
 
-
-    private IEnumerator AroundSpawn()
+    private void Update()
     {
-        Vector2 range = spawnMode switch
-        {
-            SpawnMode.Front90 => new Vector2(-45, 45),
-            SpawnMode.Front180 => new Vector2(-90, 90),
-            SpawnMode.Around => new Vector2(-180, 180),
-            _ => new Vector2(-30, 30),
-        };
-
-        while (true)
-        {
-            //ランダムな角度を取得
-            float angle = Random.Range(range.x, range.y);
-
-
-            if (forceAngle != 0)
-            {
-                angle = forceAngle;
-            }
-            var pos = GetSplitedPositionWithAngles(new Vector2Int(Random.Range(0, areaSplit.x), Random.Range(0, areaSplit.y)), angle);
-
-            //playAreaを中心にangle度回転
-            var spawnPos = playArea.position;
-            spawnPos.z -= fishDistance;
-            var spawnPosRotated = Quaternion.Euler(0, angle, 0) * (pos - spawnPos) + spawnPos;
-
-            //Distance分前に移動
-            spawnPosRotated.z += fishDistance;
-
-            indexFish = Random.Range(0, 2);
-            GameObject fish = Instantiate(fishPrefabs[indexFish], spawnPosRotated, Quaternion.identity);
-            fish.transform.LookAt(pos);
-            yield return new WaitForSeconds(timeRate);
-        }
+        angleCenter = profile.AngleCenter.Evaluate(angleTimer);
+        angleRange = profile.AngleRange.Evaluate(angleTimer);
+        angleTimer += Time.deltaTime;
     }
 
-    private IEnumerator CreateFishes()
+    private void SpawnFishAngle()
     {
-        while (true)
-        {
-            var pos = GetSplitedRandomPosition();
-            pos.z += fishDistance;
-            indexFish = Random.Range(0, 2);
-            GameObject fish = Instantiate(fishPrefabs[indexFish], pos, Quaternion.Euler(0, -180, 0));
-            fish.transform.SetParent(transform);
-            yield return new WaitForSeconds(timeRate);
-        }
+        //ランダムな角度を取得
+        float angle = angleCenter + Random.Range(-angleRange / 2, angleRange / 2);
+
+
+        var pos = GetSplitedPositionWithAngles(new Vector2Int(Random.Range(0, profile.AreaSplit.x), Random.Range(0, profile.AreaSplit.y)), angle);
+
+        //playAreaを中心にangle度回転
+        var spawnPos = playArea.position;
+        spawnPos.z -= profile.FishDistance;
+        var spawnPosRotated = Quaternion.Euler(0, angle, 0) * (pos - spawnPos) + spawnPos;
+
+        //Distance分前に移動
+        spawnPosRotated.z += profile.FishDistance;
+
+        indexFish = Random.Range(0, 2);
+        GameObject fish = Instantiate(fishPrefabs[indexFish], spawnPosRotated, Quaternion.identity);
+        fish.transform.LookAt(pos);
     }
+
+    private void SpawnFishStraight()
+    {
+        var pos = GetSplitedRandomPosition();
+        pos.z += profile.FishDistance;
+        indexFish = Random.Range(0, 2);
+        GameObject fish = Instantiate(fishPrefabs[indexFish], pos, Quaternion.Euler(0, -180, 0));
+        fish.transform.SetParent(transform);
+    }
+
+
 
     /// <summary>
     /// プレイエリアを分割したランダムな位置を取得
@@ -90,7 +72,7 @@ public class FishSpawnManager : MonoBehaviour
     private Vector3 GetSplitedRandomPosition()
     {
         //Splitsの中からランダムで選択
-        var randIndex = new Vector2Int(Random.Range(0, areaSplit.x), Random.Range(0, areaSplit.y));
+        var randIndex = new Vector2Int(Random.Range(0, profile.AreaSplit.x), Random.Range(0, profile.AreaSplit.y));
         return GetSplitedPosition(randIndex);
     }
 
@@ -106,8 +88,8 @@ public class FishSpawnManager : MonoBehaviour
         var startPos = new Vector3(areaPos.x - size.x / 2, areaPos.y - size.y / 2, areaPos.z);
 
         //PlayAreaの中での位置を計算
-        startPos.x += size.x / (areaSplit.x - 1) * index.x;
-        startPos.y += size.y / (areaSplit.y - 1) * index.y;
+        startPos.x += size.x / (profile.AreaSplit.x - 1) * index.x;
+        startPos.y += size.y / (profile.AreaSplit.y - 1) * index.y;
         return startPos;
     }
 
@@ -148,9 +130,31 @@ public class FishSpawnManager : MonoBehaviour
     public enum SpawnMode
     {
         Front,
-        Front90,
-        Front180,
-        Around,
+        Angle,
     }
 
+    public class SpawnOperation
+    {
+        FishSpawnManager manager;
+        public SpawnOperation(FishSpawnManager manager)
+        {
+            this.manager = manager;
+        }
+
+
+        public void SpawnFish()
+        {
+            if (manager.profile.SpawnMode == SpawnMode.Front)
+            {
+                manager.SpawnFishStraight();
+            }
+            else
+            {
+                manager.SpawnFishAngle();
+            }
+        }
+
+
+
+    }
 }
