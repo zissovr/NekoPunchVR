@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class ScoreManager : MonoBehaviour
     public int SpawnedFish;
     public int HitFish;
     public int MissedFish;
+    public float hitRate;
     public float Accuracy => HitFish / (float)(HitFish + MissedFish);
 
     private void Awake()
@@ -56,5 +58,13 @@ public class ScoreManager : MonoBehaviour
             highScoreText.text = currentScore.ToString();
             PlayfabManager.instance.SubmitScore(currentScore);
         }
+    }
+
+    //ƒqƒbƒg—¦‚ğZo
+    public float HitRate()
+    {
+        hitRate = ((float)HitFish / (float)SpawnedFish) * 100f;
+        hitRate = (float)Math.Round(hitRate, 1, MidpointRounding.AwayFromZero);
+        return hitRate;
     }
 }

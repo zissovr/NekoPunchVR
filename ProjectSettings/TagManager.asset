@@ -8,6 +8,10 @@ TagManager:
   - NekoHand
   - Fish
   - TargetMove
+  - TargetMedium
+  - TargetHard
+  - TargetMoveMedium
+  - TargetMoveHard
   layers:
   - Default
   - TransparentFX
