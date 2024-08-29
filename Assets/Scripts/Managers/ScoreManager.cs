@@ -34,7 +34,7 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScore = PlayerPrefs.GetInt($"HighScore_{GameSceneManager.instance.currentState}", 0);
         highScoreText.text = highScore.ToString();
 
         currentScoreText.text = "0";
@@ -43,7 +43,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int scorePoint)
     {
         currentScore = currentScore + scorePoint;
-        PlayerPrefs.SetInt("CurrentScore", currentScore);
+        PlayerPrefs.SetInt($"CurrentScore_{GameSceneManager.instance.currentState}", currentScore);
 
         //現在のスコアをUIに表示する
         currentScoreText.text = currentScore.ToString();
@@ -52,9 +52,9 @@ public class ScoreManager : MonoBehaviour
         finalScoreText.text = currentScore.ToString();
 
         //ハイスコア更新ならアップデート
-        if (currentScore > PlayerPrefs.GetInt("HighScore", 0))
+        if (currentScore > PlayerPrefs.GetInt($"HighScore_{GameSceneManager.instance.currentState}", 0))
         {
-            PlayerPrefs.SetInt("HighScore", currentScore);
+            PlayerPrefs.SetInt($"HighScore_{GameSceneManager.instance.currentState}", currentScore);
             highScoreText.text = currentScore.ToString();
             PlayfabManager.instance.SubmitScore(currentScore);
         }
