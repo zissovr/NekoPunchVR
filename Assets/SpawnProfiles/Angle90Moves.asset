@@ -97,3 +97,5 @@ MonoBehaviour:
         - Count: 30
           Delay: 1
         IsLoop: 1
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}

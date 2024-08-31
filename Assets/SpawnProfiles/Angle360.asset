@@ -86,11 +86,17 @@ MonoBehaviour:
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
         Delay: 0.1
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
     - rid: 8979274371917414408
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
         Delay: 0.5
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
     - rid: 8979274371917414409
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
         Delay: 1
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}

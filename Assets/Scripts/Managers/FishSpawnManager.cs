@@ -8,10 +8,6 @@ public class FishSpawnManager : MonoBehaviour
     [SerializeField]
     private SpawnProfile profile;
 
-    //‹›‚ÌŽí—Þ
-    public GameObject[] fishPrefabs;
-
-    private int indexFish;
 
     private float angleCenter;
     private float angleRange;
@@ -49,8 +45,7 @@ public class FishSpawnManager : MonoBehaviour
         //Distance•ª‘O‚ÉˆÚ“®
         spawnPosRotated.z += profile.FishDistance;
 
-        indexFish = Random.Range(0, 2);
-        GameObject fish = Instantiate(fishPrefabs[indexFish], spawnPosRotated, Quaternion.identity);
+        GameObject fish = Instantiate(profile.TimeRate.GetPrefab(), spawnPosRotated, Quaternion.identity);
         fish.transform.LookAt(pos);
     }
 
@@ -58,8 +53,7 @@ public class FishSpawnManager : MonoBehaviour
     {
         var pos = GetSplitedRandomPosition();
         pos.z += profile.FishDistance;
-        indexFish = Random.Range(0, 2);
-        GameObject fish = Instantiate(fishPrefabs[indexFish], pos, Quaternion.Euler(0, -180, 0));
+        GameObject fish = Instantiate(profile.TimeRate.GetPrefab(), pos, Quaternion.Euler(0, -180, 0));
         fish.transform.SetParent(transform);
     }
 

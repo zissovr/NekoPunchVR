@@ -21,12 +21,20 @@ public interface ISpawnTime
 {
 
     IEnumerator DelayCoroutine(SpawnOperation op);
+
+    GameObject GetPrefab();
 }
 
 [Serializable]
 public class ConstantSpawnTime : ISpawnTime
 {
     public float Delay;
+    public GameObject[] FishPrefabs;
+
+    public GameObject GetPrefab()
+    {
+        return FishPrefabs[Random.Range(0, FishPrefabs.Length)];
+    }
 
     IEnumerator ISpawnTime.DelayCoroutine(SpawnOperation op)
     {
@@ -44,6 +52,13 @@ public class RandomSpawnTime : ISpawnTime
     public float MinDelay;
     public float MaxDelay;
 
+    public GameObject[] FishPrefabs;
+
+    public GameObject GetPrefab()
+    {
+        return FishPrefabs[Random.Range(0, FishPrefabs.Length)];
+    }
+
     IEnumerator ISpawnTime.DelayCoroutine(SpawnOperation op)
     {
         while (true)
@@ -60,6 +75,12 @@ public class ArraySpawnTime : ISpawnTime
 {
     public ArrayElement[] Delays;
     public bool IsLoop;
+    public GameObject[] FishPrefabs;
+
+    public GameObject GetPrefab()
+    {
+        return FishPrefabs[Random.Range(0, FishPrefabs.Length)];
+    }
 
     IEnumerator ISpawnTime.DelayCoroutine(SpawnOperation op)
     {
@@ -103,6 +124,16 @@ public class MixedSpawnTime : ISpawnTime
     public MixedElement[] Elements;
     public bool IsLoop;
 
+    private ISpawnTime current;
+
+    public GameObject GetPrefab()
+    {
+        if (current == null)
+            return null;
+
+        return current.GetPrefab();
+    }
+
     IEnumerator ISpawnTime.DelayCoroutine(SpawnOperation op)
     {
         if (Elements == null || Elements.Length == 0)
@@ -129,7 +160,8 @@ public class MixedSpawnTime : ISpawnTime
 
             if (coroutine == null)
             {
-                coroutine = StaticCoroutine.Start(Elements[index].SpawnTime.DelayCoroutine(op));
+                current = Elements[index].SpawnTime;
+                coroutine = StaticCoroutine.Start(current.DelayCoroutine(op));
             }
 
             yield return null;

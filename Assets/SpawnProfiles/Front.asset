@@ -36,3 +36,5 @@ MonoBehaviour:
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
         Delay: 0.4
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
