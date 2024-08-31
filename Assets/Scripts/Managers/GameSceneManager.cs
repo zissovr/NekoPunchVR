@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -37,8 +35,12 @@ public class GameSceneManager : MonoBehaviour
     public GameObject gyojyoTitle;
     public TextMeshProUGUI textGyojyoTital;
 
+    [Header("SpawnProfile")]
+    public SpawnProfile[] profiles;
+
+
     [Header("Managers")]
-    public GameObject fishSpawnManager;
+    public FishSpawnManager fishSpawnManager;
 
     [Header("XRInteraction")]
     //RayInteractorの取得
@@ -125,6 +127,9 @@ public class GameSceneManager : MonoBehaviour
         //漁場ステージをセット
         //SelectStage(currentState);
         SelectStage(StageState.NyarwayOffshore);
+
+        //スポーン開始
+        fishSpawnManager.gameObject.SetActive(true);
     }
 
     //RayInteractorの取得と非表示
@@ -157,7 +162,7 @@ public class GameSceneManager : MonoBehaviour
         timeText.text = ConvertToMinAndSeconds(0);
 
         //スポーン終了
-        fishSpawnManager.SetActive(false);
+        fishSpawnManager.gameObject.SetActive(false);
 
         //確定スコア・ランキング表示と現在スコア非表示
         finalScoreUI_Gameobject.SetActive(true);
@@ -354,6 +359,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャルウェー沖ステージ選択の処理をここに記述
     private void HandleNyarwayOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[0]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(0);
         //ハイスコアランキングUIの表示
@@ -370,6 +378,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャナダ沖ステージ選択の処理をここに記述
     private void HandleNyanadaOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[1]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(1);
         //ハイスコアランキングUIの表示
@@ -383,6 +394,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャンカサン沖ステージ選択の処理をここに記述
     private void HandleNyankasanOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[2]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(2);
         //ハイスコアランキングUIの表示
@@ -396,6 +410,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャラスカ沖ステージ選択の処理をここに記述
     private void HandleNyalaskaOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[3]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(3);
         //ハイスコアランキングUIの表示
@@ -409,6 +426,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャルー沖ステージ選択の処理をここに記述
     private void HandleNyaruOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[4]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(4);
         //ハイスコアランキングUIの表示
@@ -422,6 +442,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャンキョクカイ沖ステージ選択の処理をここに記述
     private void HandleNyankyokukaiOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[5]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(5);
         //ハイスコアランキングUIの表示
@@ -435,6 +458,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャーリングカイ沖ステージ選択の処理をここに記述
     private void HandleNyaringkaiOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[6]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(6);
         //ハイスコアランキングUIの表示
@@ -448,6 +474,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャルトカイ沖ステージ選択の処理をここに記述
     private void HandleNyaltkaiOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[7]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(7);
         //ハイスコアランキングUIの表示
@@ -461,6 +490,9 @@ public class GameSceneManager : MonoBehaviour
     //ニャッカイ沖ステージ選択の処理をここに記述
     private void HandleNyakkaiOffshore()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[8]);
+
         //ヒット率ランキングUIの表示
         RankingManager.instance.ShowHitRateRanking(8);
         //ハイスコアランキングUIの表示
@@ -474,6 +506,9 @@ public class GameSceneManager : MonoBehaviour
     //ゲストモード選択の処理をここに記述
     private void HandleGuestMode()
     {
+        //スポーンプロフィールの設定
+        fishSpawnManager.SetSpawnProfile(profiles[9]);
+
         Debug.Log("ゲストモードが選択されました。");
     }
 
@@ -540,7 +575,7 @@ public class GameSceneManager : MonoBehaviour
                 break;
 
             case StageState.GuestMode:
-                
+
                 break;
         }
     }

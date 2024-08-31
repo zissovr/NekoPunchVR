@@ -15,18 +15,26 @@ public class FishSpawnManager : MonoBehaviour
 
     private float angleTimer;
 
-    void Start()
+
+    private void OnEnable()
     {
+        Debug.Log("スポーン開始：" + profile.name);
         StartCoroutine(profile.TimeRate.DelayCoroutine(new SpawnOperation(this)));
         angleTimer = 0;
-
     }
+
+
 
     private void Update()
     {
         angleCenter = profile.AngleCenter.Evaluate(angleTimer);
         angleRange = profile.AngleRange.Evaluate(angleTimer);
         angleTimer += Time.deltaTime;
+    }
+
+    public void SetSpawnProfile(SpawnProfile profile)
+    {
+        this.profile = profile;
     }
 
     private void SpawnFishAngle()
@@ -134,6 +142,8 @@ public class FishSpawnManager : MonoBehaviour
         {
             this.manager = manager;
         }
+
+        public FishSpawnManager GetManager() => manager;
 
 
         public void SpawnFish()

@@ -594,7 +594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4876359319383708595
 Transform:
   m_ObjectHideFlags: 0
@@ -624,9 +624,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playArea: {fileID: 0}
   profile: {fileID: 11400000, guid: a035e49e0ca25914c8351ff38103dd93, type: 2}
-  fishPrefabs:
-  - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
-  - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
 --- !u!1 &7560183234122136840
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +958,18 @@ MonoBehaviour:
   targets_Gameobject: {fileID: 0}
   gyojyoTitle: {fileID: 0}
   textGyojyoTital: {fileID: 0}
-  fishSpawnManager: {fileID: 7542708650094139048}
+  profiles:
+  - {fileID: 11400000, guid: c047e54e69ef77841ac5a2d2a07f9ed1, type: 2}
+  - {fileID: 11400000, guid: 9144b5e466e89f646a628d6835fb4049, type: 2}
+  - {fileID: 11400000, guid: 06bfef0f0ac40424f8ba2dd0cc9144c1, type: 2}
+  - {fileID: 11400000, guid: 5e6740b1d4c516648b7593ba7123b743, type: 2}
+  - {fileID: 11400000, guid: 573da78e4cc9ee8459941e37b4a2e1ea, type: 2}
+  - {fileID: 11400000, guid: 27737bb453be4084d996e8291e43ccfd, type: 2}
+  - {fileID: 11400000, guid: 64fd7030f9c827d45a7a1aab1931fb1a, type: 2}
+  - {fileID: 11400000, guid: a0d9b3d68f7c8fd41995ff31e51d310e, type: 2}
+  - {fileID: 11400000, guid: 332ea6a56ffc7cb4a81d7f41a02973d6, type: 2}
+  - {fileID: 11400000, guid: 1d7a4ab2955f53742a3ec81346842fc2, type: 2}
+  fishSpawnManager: {fileID: 362944265266736189}
   rightRayInteractor: {fileID: 0}
   leftRayInteractor: {fileID: 0}
   moveLocomotion: {fileID: 0}

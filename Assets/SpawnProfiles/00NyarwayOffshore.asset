@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af98255fdea047b4ea24433a76fbfca6, type: 3}
+  m_Name: 00NyarwayOffshore
+  m_EditorClassIdentifier: 
+  AreaSplit: {x: 5, y: 3}
+  FishDistance: 10
+  TimeRate:
+    rid: 8979274371917414400
+  SpawnMode: 0
+  AngleCenter:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AngleRange:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  references:
+    version: 2
+    RefIds:
+    - rid: 8979274371917414400
+      type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delay: 0.4
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}

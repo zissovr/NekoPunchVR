@@ -164,6 +164,9 @@ public class MixedSpawnTime : ISpawnTime
                 coroutine = StaticCoroutine.Start(current.DelayCoroutine(op));
             }
 
+            if (op.GetManager().gameObject.activeSelf == false)
+                yield break;
+
             yield return null;
             time -= Time.deltaTime;
         }
