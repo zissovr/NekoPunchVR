@@ -30,8 +30,22 @@ public class PlayfabManager : MonoBehaviour
     public string HighScore_NyaltkaiOffshore;
     public string HighScore_NyakkaiOffshore;
 
+    //ヒット率リーダーボードの名前ごとにヒット率を保持する変数
+    public string HitRate_NyarwayOffshore;
+    public string HitRate_NyanadaOffshore;
+    public string HitRate_NyankasanOffshore;
+    public string HitRate_NyalaskaOffshore;
+    public string HitRate_NyaruOffshore;
+    public string HitRate_NyankyokukaiOffshore;
+    public string HitRate_NyaringkaiOffshore;
+    public string HitRate_NyaltkaiOffshore;
+    public string HitRate_NyakkaiOffshore;
+
     //リーダーボード名とハイスコア変数のマッピング
     private Dictionary<string, string> highScoreMap = new Dictionary<string, string>();
+
+    //リーダーボード名とヒット率変数のマッピング
+    private Dictionary<string, string> hitRateMap = new Dictionary<string, string>();
 
     //ハイスコアリーダーボード名を格納するリスト
     private List<string> leaderboardNames = new List<string>
@@ -45,6 +59,20 @@ public class PlayfabManager : MonoBehaviour
         "HighScore_NyaringkaiOffshore",
         "HighScore_NyaltkaiOffshore",
         "HighScore_NyakkaiOffshore"
+    };
+
+    //ヒット率リーダーボード名を格納するリスト
+    private List<string> leaderboardHitRateNames = new List<string>
+    {
+        "HitRate_NyarwayOffshore",
+        "HitRate_NyanadaOffshore",
+        "HitRate_NyankasanOffshore",
+        "HitRate_NyalaskaOffshore",
+        "HitRate_NyaruOffshore",
+        "HitRate_NyankyokukaiOffshore",
+        "HitRate_NyaringkaiOffshore",
+        "HitRate_NyaltkaiOffshore",
+        "HitRate_NyakkaiOffshore"
     };
 
     private void Awake()
@@ -63,6 +91,9 @@ public class PlayfabManager : MonoBehaviour
 
         //ハイスコアリーダーボード：辞書の初期化
         InitializeLeaderboardDictionary();
+
+        //ヒット率リーダーボード：辞書の初期化
+        InitializeHitRateLeaderboardDictionary();
     }
 
     //ログイン実行
@@ -147,7 +178,7 @@ public class PlayfabManager : MonoBehaviour
     }
 
 
-    //[ランキング更新]
+    //[スコアランキング更新]
     public void SubmitScore(int playerScore)
     {
         PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
@@ -169,6 +200,28 @@ public class PlayfabManager : MonoBehaviour
         });
     }
 
+    //[スコアランキング更新]
+    public void SubmitHitRate(float hitRate)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate
+                {
+                    StatisticName = $"HitRate_{GameSceneManager.instance.currentState}",
+                    Value = (int)(hitRate * 10f)
+                }
+            }
+        }, result =>
+        {
+            //Debug.Log("ヒット率送信完了！");
+        }, error =>
+        {
+            Debug.Log(error.GenerateErrorReport());
+        });
+    }
+
     //辞書の初期化：ハイスコアリーダーボード名をキーに変数を参照する設定
     private void InitializeLeaderboardDictionary()
     {
@@ -183,12 +236,35 @@ public class PlayfabManager : MonoBehaviour
         highScoreMap.Add("HighScore_NyakkaiOffshore", nameof(HighScore_NyakkaiOffshore));
     }
 
+    //辞書の初期化：ヒット率リーダーボード名をキーに変数を参照する設定
+    private void InitializeHitRateLeaderboardDictionary()
+    {
+        hitRateMap.Add("HitRate_NyarwayOffshore", nameof(HitRate_NyarwayOffshore));
+        hitRateMap.Add("HitRate_NyanadaOffshore", nameof(HitRate_NyanadaOffshore));
+        hitRateMap.Add("HitRate_NyankasanOffshore", nameof(HitRate_NyankasanOffshore));
+        hitRateMap.Add("HitRate_NyalaskaOffshore", nameof(HitRate_NyalaskaOffshore));
+        hitRateMap.Add("HitRate_NyaruOffshore", nameof(HitRate_NyaruOffshore));
+        hitRateMap.Add("HitRate_NyankyokukaiOffshore", nameof(HitRate_NyankyokukaiOffshore));
+        hitRateMap.Add("HitRate_NyaringkaiOffshore", nameof(HitRate_NyaringkaiOffshore));
+        hitRateMap.Add("HitRate_NyaltkaiOffshore", nameof(HitRate_NyaltkaiOffshore));
+        hitRateMap.Add("HitRate_NyakkaiOffshore", nameof(HitRate_NyakkaiOffshore));
+    }
+
     //すべてのハイスコアリーダーボードの値を一気に取得するメソッド
     public void GetAllLeaderboardValues()
     {
         foreach(string leaderboardName in leaderboardNames)
         {
             GetLeaderboardValue(leaderboardName);
+        }
+    }
+
+    //すべてのヒット率リーダーボードの値を一気に取得するメソッド
+    public void GetAllHitRateLeaderboardValues()
+    {
+        foreach (string hitRateLeaderboardName in leaderboardHitRateNames)
+        {
+            GetHitRateLeaderboardValue(hitRateLeaderboardName);
         }
     }
 
@@ -204,13 +280,25 @@ public class PlayfabManager : MonoBehaviour
         PlayFabClientAPI.GetLeaderboardAroundPlayer(request, result => OnGetLeaderboardSuccess(result, leaderboardName), OnGetLeaderboardError);
     }
 
+    //各ヒット率リーダーボードの値を取得するメソッド
+    public void GetHitRateLeaderboardValue(string hitRateLeaderboardName)
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = hitRateLeaderboardName,
+            MaxResultsCount = 1 // 自分のみを取得
+        };
+
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, result => OnGetHitRateLeaderboardSuccess(result, hitRateLeaderboardName), OnGetHitRateLeaderboardError);
+    }
+
     //ハイスコアリーダーボード取得に成功した場合
     private void OnGetLeaderboardSuccess(GetLeaderboardAroundPlayerResult result, string leaderboardName)
     {
         if (result.Leaderboard.Count > 0)
         {
             var myEntry = result.Leaderboard[0];
-            Debug.Log($"Leaderboard: {leaderboardName} - My Position: {myEntry.Position}, My Value: {myEntry.StatValue}");
+            //Debug.Log($"Leaderboard: {leaderboardName} - My Position: {myEntry.Position}, My Value: {myEntry.StatValue}");
 
             //ハイスコアリーダーボード名に一致する変数にハイスコアを代入
             UpdateHighScoreVariable(leaderboardName, myEntry.StatValue.ToString());
@@ -221,8 +309,33 @@ public class PlayfabManager : MonoBehaviour
         }
     }
 
+    //ヒット率リーダーボード取得に成功した場合
+    private void OnGetHitRateLeaderboardSuccess(GetLeaderboardAroundPlayerResult result, string hitRateLeaderboardName)
+    {
+        if (result.Leaderboard.Count > 0)
+        {
+            var myEntry = result.Leaderboard[0];
+            float hitRateMyEntry = myEntry.StatValue;
+            float hitRateF1 = hitRateMyEntry / 10;
+            //Debug.Log($"HitRate Leaderboard: {hitRateLeaderboardName} - My Position: {myEntry.Position}, My Value: {hitRateF1}%");
+
+            //ハイスコアリーダーボード名に一致する変数にハイスコアを代入
+            UpdateHitRateVariable(hitRateLeaderboardName, hitRateF1.ToString());
+        }
+        else
+        {
+            Debug.Log("No entries found for the player in the leaderboard.");
+        }
+    }
+
     //ハイスコアリーダーボード取得に失敗した場合
     private void OnGetLeaderboardError(PlayFabError error)
+    {
+        Debug.LogError($"Error retrieving leaderboard: {error.GenerateErrorReport()}");
+    }
+
+    //ヒット率リーダーボード取得に失敗した場合
+    private void OnGetHitRateLeaderboardError(PlayFabError error)
     {
         Debug.LogError($"Error retrieving leaderboard: {error.GenerateErrorReport()}");
     }
@@ -258,6 +371,41 @@ public class PlayfabManager : MonoBehaviour
                 break;
             case "HighScore_NyakkaiOffshore":
                 HighScore_NyakkaiOffshore = value;
+                break;
+        }
+    }
+
+    //ヒット率リーダーボード名に対応する変数にヒット率を代入するメソッド
+    private void UpdateHitRateVariable(string hitRateLeaderboardName, string value)
+    {
+        switch (hitRateLeaderboardName)
+        {
+            case "HitRate_NyarwayOffshore":
+                HitRate_NyarwayOffshore = value;
+                break;
+            case "HitRate_NyanadaOffshore":
+                HitRate_NyanadaOffshore = value;
+                break;
+            case "HitRate_NyankasanOffshore":
+                HitRate_NyankasanOffshore = value;
+                break;
+            case "HitRate_NyalaskaOffshore":
+                HitRate_NyalaskaOffshore = value;
+                break;
+            case "HitRate_NyaruOffshore":
+                HitRate_NyaruOffshore = value;
+                break;
+            case "HitRate_NyankyokukaiOffshore":
+                HitRate_NyankyokukaiOffshore = value;
+                break;
+            case "HitRate_NyaringkaiOffshore":
+                HitRate_NyaringkaiOffshore = value;
+                break;
+            case "HitRate_NyaltkaiOffshore":
+                HitRate_NyaltkaiOffshore = value;
+                break;
+            case "HitRate_NyakkaiOffshore":
+                HitRate_NyakkaiOffshore = value;
                 break;
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +22,8 @@ public class GameSceneManager : MonoBehaviour
     public GameObject finalScoreUI_Gameobject;
     public GameObject rankingUI_Gameobject;
     public GameObject nekopunchUI_Gameobject;
+    public GameObject hitRateUI_Gameobject;
+    public GameObject daylypunchUI_Gameobject;
     //鏡と操作パネルのオブジェクト
     public GameObject mirror_Gameobject;
     public GameObject mirrorButton_Gameobject;
@@ -30,6 +33,9 @@ public class GameSceneManager : MonoBehaviour
     public TextMeshProUGUI textPlayfabID;
     //スコアターゲットのオブジェクト
     public GameObject targets_Gameobject;
+    //漁場タイトル
+    public GameObject gyojyoTitle;
+    public TextMeshProUGUI textGyojyoTital;
 
     [Header("Managers")]
     public GameObject fishSpawnManager;
@@ -99,6 +105,11 @@ public class GameSceneManager : MonoBehaviour
         nekopunchUI_Gameobject.SetActive(false);
         currentScoreUI_Gameobject.SetActive(true);
         restartButtonUI_Gameobject.SetActive(false);
+        hitRateUI_Gameobject.SetActive(false);
+        daylypunchUI_Gameobject.SetActive(false);
+
+        //漁場タイトルの非表示
+        gyojyoTitle.SetActive(false);
 
         //鏡と操作パネルの非表示
         mirror_Gameobject.SetActive(false);
@@ -113,7 +124,7 @@ public class GameSceneManager : MonoBehaviour
 
         //漁場ステージをセット
         //SelectStage(currentState);
-        SelectStage(StageState.NyanadaOffshore);
+        SelectStage(StageState.NyarwayOffshore);
     }
 
     //RayInteractorの取得と非表示
@@ -154,6 +165,12 @@ public class GameSceneManager : MonoBehaviour
         nekopunchUI_Gameobject.SetActive(true);
         currentScoreUI_Gameobject.SetActive(false);
         restartButtonUI_Gameobject.SetActive(true);
+        hitRateUI_Gameobject.SetActive(true);
+        daylypunchUI_Gameobject.SetActive(true);
+
+        //漁場タイトルの表示
+        gyojyoTitle.SetActive(true);
+        textGyojyoTital.text = currentState.ToString();
 
         //鏡と操作パネルの表示
         mirror_Gameobject.SetActive(true);
@@ -175,7 +192,7 @@ public class GameSceneManager : MonoBehaviour
         moveLocomotion.SetActive(true);
 
         //ランキングの取得
-        RankingManager.instance.RequestLeaderBoard();
+        //RankingManager.instance.RequestLeaderBoard();
 
         //ネコパンチ総数の送信
         PlayfabManager.instance.SubmitNumberOfNekopunch();
@@ -227,6 +244,9 @@ public class GameSceneManager : MonoBehaviour
         int nextIndex = ((int)currentState + 1) % (stageIndices.Count - 1);
         currentState = (StageState)nextIndex;
         SelectStage(currentState);
+
+        //前回のスコアとヒット率を初期化
+        ScoreManager.instance.InitializeCurrentScoreAndHitRate();
     }
 
     //前の漁場ステージ変更ボタン
@@ -235,6 +255,9 @@ public class GameSceneManager : MonoBehaviour
         int previousIndex = ((int)currentState - 1 + stageIndices.Count - 1) % (stageIndices.Count - 1);
         currentState = (StageState)previousIndex;
         SelectStage(currentState);
+
+        //前回のスコアとヒット率を初期化
+        ScoreManager.instance.InitializeCurrentScoreAndHitRate();
     }
 
     //ゲストモードボタン
@@ -279,6 +302,9 @@ public class GameSceneManager : MonoBehaviour
 
         //漁場ステージの名前をデッキパネルに表示
         textDeckNamePanel.text = state.ToString();
+
+        //漁場ステージの名前を前面UIに表示
+        textGyojyoTital.text = state.ToString();
 
         //漁場ステージ毎の処理をswitch文で実装
         switch (state)
@@ -328,11 +354,14 @@ public class GameSceneManager : MonoBehaviour
     //ニャルウェー沖ステージ選択の処理をここに記述
     private void HandleNyarwayOffshore()
     {
-        Debug.Log("ニャルウェー沖ステージが選択されました。");
-        //ランキングUIの表示
-        //最高スコアUIの表示
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(0);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(0);
+        //自分のハイスコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyarwayOffshore;
         //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyarwayOffshore}%";
         //DeckPanelに取れる魚の表示
         //漁場ステージメッセージの表示
         //DeckPanelに取得した猫缶と猫用おやつを表示
@@ -341,65 +370,105 @@ public class GameSceneManager : MonoBehaviour
     //ニャナダ沖ステージ選択の処理をここに記述
     private void HandleNyanadaOffshore()
     {
-        Debug.Log("ニャナダ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(1);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(1);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyanadaOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyanadaOffshore}%";
     }
 
     //ニャンカサン沖ステージ選択の処理をここに記述
     private void HandleNyankasanOffshore()
     {
-        Debug.Log("ニャンカサン沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(2);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(2);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyankasanOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyankasanOffshore}%";
     }
 
     //ニャラスカ沖ステージ選択の処理をここに記述
     private void HandleNyalaskaOffshore()
     {
-        Debug.Log("ニャラスカ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(3);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(3);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyalaskaOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyalaskaOffshore}%";
     }
 
     //ニャルー沖ステージ選択の処理をここに記述
     private void HandleNyaruOffshore()
     {
-        Debug.Log("ニャルー沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(4);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(4);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyaruOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyaruOffshore}%";
     }
 
     //ニャンキョクカイ沖ステージ選択の処理をここに記述
     private void HandleNyankyokukaiOffshore()
     {
-        Debug.Log("ニャンキョクカイ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(5);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(5);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyankyokukaiOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyankyokukaiOffshore}%";
     }
 
     //ニャーリングカイ沖ステージ選択の処理をここに記述
     private void HandleNyaringkaiOffshore()
     {
-        Debug.Log("ニャーリングカイ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(6);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(6);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyaringkaiOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyaringkaiOffshore}%";
     }
 
     //ニャルトカイ沖ステージ選択の処理をここに記述
     private void HandleNyaltkaiOffshore()
     {
-        Debug.Log("ニャルトカイ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(7);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(7);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyaltkaiOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyaltkaiOffshore}%";
     }
 
     //ニャッカイ沖ステージ選択の処理をここに記述
     private void HandleNyakkaiOffshore()
     {
-        Debug.Log("ニャッカイ沖ステージが選択されました。");
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking(8);
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking(8);
         //最高スコアUIの表示
         ScoreManager.instance.highScoreText.text = PlayfabManager.instance.HighScore_NyakkaiOffshore;
+        //最高ヒット率UIの表示
+        ScoreManager.instance.highHitRateText.text = $"{PlayfabManager.instance.HitRate_NyakkaiOffshore}%";
     }
 
     //ゲストモード選択の処理をここに記述
@@ -413,8 +482,20 @@ public class GameSceneManager : MonoBehaviour
     private void TimeOverByStages(StageState state)
     {
         //現在の漁場ステージの自分のハイスコアと順位を取得
-        //PlayfabManager.instance.GetMyLeaderboardValue(state.ToString());
         PlayfabManager.instance.GetAllLeaderboardValues();
+
+        //ハイスコアの表示
+        //ScoreManager.instance.highScoreText.text = ScoreManager.instance.highScore.ToString();
+        RankingManager.instance.RequestAllHighScoreRanking();
+
+        //ヒット率の送信
+        ScoreManager.instance.HitRate();
+
+        //ヒット率ランキングの取得と表示
+        RankingManager.instance.RequestAllHitRateRanking();
+
+        //現在の漁場ステージの自分のヒット率と順位を取得
+        PlayfabManager.instance.GetAllHitRateLeaderboardValues();
 
         //DeckPanelにPlayfabIDを設定
         textPlayfabID.text = PlayfabManager.instance.masterPlayerAccountID;
@@ -427,35 +508,35 @@ public class GameSceneManager : MonoBehaviour
                 break;
 
             case StageState.NyanadaOffshore:
-                
+                TimeOverNyanadaOffshore(state);
                 break;
 
             case StageState.NyankasanOffshore:
-                
+                TimeOverNyankasanOffshore(state);
                 break;
 
             case StageState.NyalaskaOffshore:
-                
+                TimeOverNyalaskaOffshore(state);
                 break;
 
             case StageState.NyaruOffshore:
-                
+                TimeOverNyaruOffshore(state);
                 break;
 
             case StageState.NyankyokukaiOffshore:
-                
+                TimeOverNyankyokukaiOffshore(state);
                 break;
 
             case StageState.NyaringkaiOffshore:
-                
+                TimeOverNyaringkaiOffshore(state);
                 break;
 
             case StageState.NyaltkaiOffshore:
-                
+                TimeOverNyaltkaiOffshore(state);
                 break;
 
             case StageState.NyakkaiOffshore:
-                
+                TimeOverNyakkaiOffshore(state);
                 break;
 
             case StageState.GuestMode:
@@ -468,9 +549,53 @@ public class GameSceneManager : MonoBehaviour
     private void TimeOverNyarwayOffshore(StageState state)
     {
         Debug.Log($"{state}ステージが終了しました。");
+    }
 
-        //ヒット率の確認
-        Debug.Log($"スポーンされた魚の数は{ScoreManager.instance.SpawnedFish}");
-        Debug.Log($"{state}ステージのヒット率は{ScoreManager.instance.HitRate()}％です。");
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyanadaOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyankasanOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyalaskaOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyaruOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyankyokukaiOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyaringkaiOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyaltkaiOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //ニャナダ沖のタイムオーバー時の処理をここに記述
+    private void TimeOverNyakkaiOffshore(StageState state)
+    {
+        Debug.Log($"{state}ステージが終了しました。");
     }
 }

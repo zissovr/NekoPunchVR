@@ -54,6 +54,15 @@ MonoBehaviour:
   HighScore_NyaringkaiOffshore: 
   HighScore_NyaltkaiOffshore: 
   HighScore_NyakkaiOffshore: 
+  HitRate_NyarwayOffshore: 
+  HitRate_NyanadaOffshore: 
+  HitRate_NyankasanOffshore: 
+  HitRate_NyalaskaOffshore: 
+  HitRate_NyaruOffshore: 
+  HitRate_NyankyokukaiOffshore: 
+  HitRate_NyaringkaiOffshore: 
+  HitRate_NyaltkaiOffshore: 
+  HitRate_NyakkaiOffshore: 
 --- !u!1 &1385414382662329729
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,8 +109,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rankingScore: 0
   nekopunchScore: 0
-  rankingScoreText: {fileID: 0}
   nekopunchScoreText: {fileID: 0}
+  rankingHitRateTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  rankingHighScoreTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &3500394708491043192
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,13 +440,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScoreText: {fileID: 0}
   highScoreText: {fileID: 0}
+  highHitRateText: {fileID: 0}
   finalScoreText: {fileID: 0}
+  finalHitRateText: {fileID: 0}
   currentScore: 0
   highScore: 0
   SpawnedFish: 0
   HitFish: 0
   MissedFish: 0
   hitRate: 0
+  highHitRate: 0
 --- !u!1 &6132191402596514408
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +950,8 @@ MonoBehaviour:
   finalScoreUI_Gameobject: {fileID: 0}
   rankingUI_Gameobject: {fileID: 0}
   nekopunchUI_Gameobject: {fileID: 0}
+  hitRateUI_Gameobject: {fileID: 0}
+  daylypunchUI_Gameobject: {fileID: 0}
   mirror_Gameobject: {fileID: 0}
   mirrorButton_Gameobject: {fileID: 0}
   deckPanel_Gameobject: {fileID: 0}
@@ -926,6 +959,8 @@ MonoBehaviour:
   textDeckNyancoin: {fileID: 0}
   textPlayfabID: {fileID: 0}
   targets_Gameobject: {fileID: 0}
+  gyojyoTitle: {fileID: 0}
+  textGyojyoTital: {fileID: 0}
   fishSpawnManager: {fileID: 7542708650094139048}
   rightRayInteractor: {fileID: 0}
   leftRayInteractor: {fileID: 0}
