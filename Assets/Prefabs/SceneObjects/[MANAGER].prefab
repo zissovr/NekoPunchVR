@@ -960,13 +960,13 @@ MonoBehaviour:
   textGyojyoTital: {fileID: 0}
   profiles:
   - {fileID: 11400000, guid: c047e54e69ef77841ac5a2d2a07f9ed1, type: 2}
+  - {fileID: 11400000, guid: c6306fe0919ed834482362b633353a4a, type: 2}
   - {fileID: 11400000, guid: 9144b5e466e89f646a628d6835fb4049, type: 2}
+  - {fileID: 11400000, guid: 9bf2a83c805ee4a46928ef2cd79c4de1, type: 2}
   - {fileID: 11400000, guid: 06bfef0f0ac40424f8ba2dd0cc9144c1, type: 2}
-  - {fileID: 11400000, guid: 5e6740b1d4c516648b7593ba7123b743, type: 2}
-  - {fileID: 11400000, guid: 573da78e4cc9ee8459941e37b4a2e1ea, type: 2}
-  - {fileID: 11400000, guid: 27737bb453be4084d996e8291e43ccfd, type: 2}
-  - {fileID: 11400000, guid: 64fd7030f9c827d45a7a1aab1931fb1a, type: 2}
-  - {fileID: 11400000, guid: a0d9b3d68f7c8fd41995ff31e51d310e, type: 2}
+  - {fileID: 11400000, guid: 35ee0c458e4d5db429998c9186a246b4, type: 2}
+  - {fileID: 11400000, guid: 1751b810e8c6509488dd3d2a05178270, type: 2}
+  - {fileID: 11400000, guid: 7ec413bded1ed734aa0810a5b4e20f11, type: 2}
   - {fileID: 11400000, guid: 332ea6a56ffc7cb4a81d7f41a02973d6, type: 2}
   - {fileID: 11400000, guid: 1d7a4ab2955f53742a3ec81346842fc2, type: 2}
   fishSpawnManager: {fileID: 362944265266736189}

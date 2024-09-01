@@ -85,13 +85,15 @@ public class ArraySpawnTime : ISpawnTime
     IEnumerator ISpawnTime.DelayCoroutine(SpawnOperation op)
     {
         int index = 0;
-        int count;
+
         if (Delays == null || Delays.Length == 0)
             yield break;
 
+        int count = Delays[index].Count;
+
         while (true)
         {
-            count = Delays[index].Count;
+
             yield return new WaitForSeconds(Delays[index].Delay);
             op.SpawnFish();
 
@@ -107,6 +109,8 @@ public class ArraySpawnTime : ISpawnTime
             {
                 index = IsLoop ? 0 : Delays.Length - 1;
             }
+
+            count = Delays[index].Count;
         }
     }
 
@@ -161,14 +165,20 @@ public class MixedSpawnTime : ISpawnTime
             if (coroutine == null)
             {
                 current = Elements[index].SpawnTime;
-                coroutine = StaticCoroutine.Start(current.DelayCoroutine(op));
+                coroutine = StaticCoroutine.Start(Coroutine(current, op));
             }
-
-            if (op.GetManager().gameObject.activeSelf == false)
-                yield break;
 
             yield return null;
             time -= Time.deltaTime;
+        }
+    }
+
+    IEnumerator Coroutine(ISpawnTime time, SpawnOperation op)
+    {
+        var enumerator = time.DelayCoroutine(op);
+        while (enumerator.MoveNext() && op.GetManager().gameObject.activeSelf)
+        {
+            yield return enumerator.Current;
         }
     }
 

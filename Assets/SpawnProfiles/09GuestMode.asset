@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af98255fdea047b4ea24433a76fbfca6, type: 3}
   m_Name: 09GuestMode
   m_EditorClassIdentifier: 
-  AreaSplit: {x: 5, y: 3}
+  AreaSplit: {x: 4, y: 3}
   FishDistance: 10
   TimeRate:
-    rid: 8979274371917414400
+    rid: 8979274575042838530
   SpawnMode: 0
   AngleCenter:
     serializedVersion: 2
@@ -32,9 +32,19 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8979274371917414400
-      type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
+    - rid: 8979274575042838530
+      type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
       data:
-        Delay: 0.4
-        FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        Delays:
+        - Count: 12
+          Delay: 0.8
+        - Count: 14
+          Delay: 0.7
+        - Count: 16
+          Delay: 0.6
+        - Count: 18
+          Delay: 0.5
+        - Count: 100
+          Delay: 0.4
+        IsLoop: 1
+        FishPrefabs: []

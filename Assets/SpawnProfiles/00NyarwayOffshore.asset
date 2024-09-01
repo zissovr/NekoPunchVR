@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af98255fdea047b4ea24433a76fbfca6, type: 3}
   m_Name: 00NyarwayOffshore
   m_EditorClassIdentifier: 
-  AreaSplit: {x: 5, y: 3}
+  AreaSplit: {x: 4, y: 3}
   FishDistance: 10
   TimeRate:
     rid: 8979274371917414400
@@ -35,6 +35,6 @@ MonoBehaviour:
     - rid: 8979274371917414400
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
-        Delay: 0.4
+        Delay: 0.7
         FishPrefabs:
         - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}

@@ -15,26 +15,180 @@ MonoBehaviour:
   AreaSplit: {x: 5, y: 3}
   FishDistance: 10
   TimeRate:
-    rid: 8979274371917414400
-  SpawnMode: 0
+    rid: 8979274575042838545
+  SpawnMode: 1
   AngleCenter:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 39
+      value: 0
+      inSlope: -0
+      outSlope: 11.25
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 55
+      value: 360
+      inSlope: 22.5
+      outSlope: 22.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   AngleRange:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 1
+      value: 360
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 39
+      value: 360
+      inSlope: -0
+      outSlope: -180
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 40
+      value: 1
+      inSlope: -359
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 60
+      value: 1
+      inSlope: -0
+      outSlope: -0.052539233
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   references:
     version: 2
     RefIds:
-    - rid: 8979274371917414400
+    - rid: 8979274575042838545
+      type: {class: MixedSpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Elements:
+        - Time: 3
+          SpawnTime:
+            rid: 8979274575042838558
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838559
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838548
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838549
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838550
+        - Time: 8
+          SpawnTime:
+            rid: 8979274575042838551
+        - Time: 8
+          SpawnTime:
+            rid: 8979274575042838552
+        - Time: 30
+          SpawnTime:
+            rid: 8979274575042838553
+        IsLoop: 0
+    - rid: 8979274575042838548
+      type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delays:
+        - Count: 3
+          Delay: 0.5
+        - Count: 99
+          Delay: 999
+        IsLoop: 0
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838549
+      type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delays:
+        - Count: 4
+          Delay: 0.6
+        - Count: 99
+          Delay: 999
+        IsLoop: 0
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838550
+      type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delays:
+        - Count: 2
+          Delay: 0.1
+        - Count: 99
+          Delay: 999
+        IsLoop: 0
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838551
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
-        Delay: 0.4
+        Delay: 1.5
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838552
+      type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delay: 1.3
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838553
+      type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delay: 0.6
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838558
+      type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delay: 2
+        FishPrefabs:
+        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+    - rid: 8979274575042838559
+      type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
+      data:
+        Delays:
+        - Count: 2
+          Delay: 0.5
+        - Count: 99
+          Delay: 999
+        IsLoop: 0
         FishPrefabs:
         - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
