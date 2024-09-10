@@ -15,7 +15,7 @@ MonoBehaviour:
   AreaSplit: {x: 4, y: 3}
   FishDistance: 10
   TimeRate:
-    rid: 8979274371917414400
+    rid: 4080894716580200450
   SpawnMode: 0
   AngleCenter:
     serializedVersion: 2
@@ -32,9 +32,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8979274371917414400
+    - rid: 4080894716580200450
       type: {class: ConstantSpawnTime, ns: , asm: Assembly-CSharp}
       data:
-        Delay: 0.7
+        Delay: 2
         FishPrefabs:
         - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 16096790810146585, guid: 640ba51052c0bf14ca7d29095296946d, type: 3}

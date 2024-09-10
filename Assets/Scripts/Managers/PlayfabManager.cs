@@ -87,6 +87,8 @@ public class PlayfabManager : MonoBehaviour
     }
     private void Start()
     {
+        //クリエイトアカウントフラグ
+        _shouldCreateAccount = string.IsNullOrEmpty(PlayerPrefs.GetString(CUSTOM_ID_SAVE_KEY));
         Login();
 
         //ハイスコアリーダーボード：辞書の初期化
@@ -99,8 +101,14 @@ public class PlayfabManager : MonoBehaviour
     //ログイン実行
     private void Login()
     {
+        //カスタムIDの読み込み
         _customID = LoadCustomID();
+        _shouldCreateAccount = string.IsNullOrEmpty(_customID);
+
+        //アカウントを作成するかどうか
         var request = new LoginWithCustomIDRequest { CustomId = _customID, CreateAccount = _shouldCreateAccount };
+
+        //ログイン
         PlayFabClientAPI.LoginWithCustomID(request, OnLoginSuccess, OnLoginFailure);
     }
 
@@ -131,7 +139,7 @@ public class PlayfabManager : MonoBehaviour
     //ログイン失敗
     private void OnLoginFailure(PlayFabError error)
     {
-        Debug.LogError($"PlayFabのログインに失敗\n{error.GenerateErrorReport()}");
+        Debug.LogError($"PlayFabのログインに失敗\nエラーコード: {error.Error} - 詳細: {error.ErrorDetails}\n{error.GenerateErrorReport()}");
     }
 
 
@@ -146,8 +154,15 @@ public class PlayfabManager : MonoBehaviour
         string id = PlayerPrefs.GetString(CUSTOM_ID_SAVE_KEY);
 
         //保存されていなければ新規作成
-        _shouldCreateAccount = string.IsNullOrEmpty(id);
-        return _shouldCreateAccount ? GenerateCustomID() : id;
+        if (string.IsNullOrEmpty(id))
+        {
+            _shouldCreateAccount = true;
+            return GenerateCustomID();
+        } else
+        {
+            _shouldCreateAccount = false;
+            return id;
+        }
     }
 
     //IDの保存
