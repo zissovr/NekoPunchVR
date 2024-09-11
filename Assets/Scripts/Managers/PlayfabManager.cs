@@ -88,7 +88,9 @@ public class PlayfabManager : MonoBehaviour
     private void Start()
     {
         //クリエイトアカウントフラグ
-        _shouldCreateAccount = string.IsNullOrEmpty(PlayerPrefs.GetString(CUSTOM_ID_SAVE_KEY));
+        _customID = LoadCustomID();
+        _shouldCreateAccount = string.IsNullOrEmpty(_customID);
+
         Login();
 
         //ハイスコアリーダーボード：辞書の初期化
@@ -101,10 +103,6 @@ public class PlayfabManager : MonoBehaviour
     //ログイン実行
     private void Login()
     {
-        //カスタムIDの読み込み
-        _customID = LoadCustomID();
-        _shouldCreateAccount = string.IsNullOrEmpty(_customID);
-
         //アカウントを作成するかどうか
         var request = new LoginWithCustomIDRequest { CustomId = _customID, CreateAccount = _shouldCreateAccount };
 
@@ -119,6 +117,7 @@ public class PlayfabManager : MonoBehaviour
         if (_shouldCreateAccount && !result.NewlyCreated)
         {
             Debug.LogWarning($"CustomId : {_customID}はすでに使われています");
+            DebugToUI.Log($"CustomId : {_customID}is already in use");
             Login();
             return;
         }
@@ -129,6 +128,7 @@ public class PlayfabManager : MonoBehaviour
             SaveCustomID();
         }
         Debug.Log($"PlayFabのログインに成功\nPlayFabId : {result.PlayFabId}, CustomId : {_customID}\nアカウントを作成したか : {result.NewlyCreated}");
+        DebugToUI.Log($"Successful PlayFab login\nPlayFabId : {result.PlayFabId}, CustomId : {_customID}\nHave you created an account : {result.NewlyCreated}");
 
         //PlayFabIdをセット
         masterPlayerAccountID = result.PlayFabId;
@@ -140,6 +140,15 @@ public class PlayfabManager : MonoBehaviour
     private void OnLoginFailure(PlayFabError error)
     {
         Debug.LogError($"PlayFabのログインに失敗\nエラーコード: {error.Error} - 詳細: {error.ErrorDetails}\n{error.GenerateErrorReport()}");
+        DebugToUI.Log($"PlayFab login failedError code: {error.Error} - Details: {error.ErrorDetails}\n{error.GenerateErrorReport()}");
+
+        if (error.Error == PlayFabErrorCode.AccountNotFound)
+        {
+            DebugToUI.Log($"Account not found. Create a new account.");
+            _shouldCreateAccount = true;
+            // 新しいアカウントを作成するために再試行
+            Login();
+        }
     }
 
 

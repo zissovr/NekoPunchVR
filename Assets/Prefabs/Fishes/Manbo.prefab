@@ -10,9 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2017424407601654934}
   - component: {fileID: 1279970977858144268}
-  m_Layer: 0
+  - component: {fileID: -7047745542970554004}
+  - component: {fileID: -8837783484399133702}
+  - component: {fileID: 5463036822733498054}
+  - component: {fileID: 4039419023264807153}
+  m_Layer: 6
   m_Name: Manbo
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,6 +59,90 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7047745542970554004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16096790810146585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb4b9c732fd3ff245bc92db9688f6e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeleteTime: 15
+--- !u!114 &-8837783484399133702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16096790810146585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164609ba4ac28514ba8eeb04ea671990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 200
+  targetEasyScore: 8
+  targetMediumScore: 10
+  targetHardScore: 12
+  targetMoveScore: 14
+  targetMoveMediumScore: 16
+  targetMoveHardScore: 18
+  hitFishEffect: {fileID: 6116628629696746932, guid: 8ed6fc1f0945d1045b04fc65f506f134,
+    type: 3}
+--- !u!54 &5463036822733498054
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16096790810146585}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &4039419023264807153
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16096790810146585}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.73
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &32366548545800139
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5977042834303862952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6321413924760486606}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7901093487895869035}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5766355457223482532}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ManboBone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2219250851812122526}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8473770752807242765}
   - component: {fileID: 6273437723567962601}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Manbo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7262926696419371105}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MouthTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +441,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3003216907695202504}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +473,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4715546128979303758}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +508,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3196351147861114901}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 74298930552938099}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinBottom2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +574,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8351889364061922541}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MouthBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6329629199813323722}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EyeRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1924732042114413707}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,7 +668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5497741983403916506}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FinTop2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3672484802216774427}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EyeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
