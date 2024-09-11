@@ -83,9 +83,13 @@ public class TargetsManager : MonoBehaviour
             {
                 deckPanelRenderers[i].material = defaultMaterial;
             }
+            else
+            {
+                Debug.LogWarning($"deckPanelRenderers[{i}] is null");
+            }
         }
 
-        if (stageIndex >= 0 && stageIndex < targetGroups.Length)
+        if (stageIndex >= 0 && stageIndex < targetGroups.Length && targetGroups[stageIndex] != null)
         {
             //選択されたステージのみを表示する
             targetGroups[stageIndex].SetActive(true);
@@ -95,6 +99,14 @@ public class TargetsManager : MonoBehaviour
             {
                 deckPanelRenderers[stageIndex].material = lightOnMaterial;
             }
+            else
+            {
+                Debug.LogWarning($"deckPanelRenderes[{stageIndex}] is null");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid stageIndex: {stageIndex} or targetGroups[{stageIndex}] is null");
         }
     }
 

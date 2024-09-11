@@ -14,7 +14,6 @@ public class GameSceneManager : MonoBehaviour
     public TextMeshProUGUI timeText;
     public Image progressBarImage;
     public GameObject timerUI_Gameobject;
-    public GameObject restartButtonUI_Gameobject;
     //スコア表示切り替えのオブジェクト設定
     public GameObject currentScoreUI_Gameobject;
     public GameObject finalScoreUI_Gameobject;
@@ -75,8 +74,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void Awake()
     {
-        //漁場ステージの名前とインデックスをマッピング
-        InitializeStageIndices();
+        
 
         if (instance != null && instance != this)
         {
@@ -85,6 +83,11 @@ public class GameSceneManager : MonoBehaviour
         }
 
         instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
+
+        //漁場ステージの名前とインデックスをマッピング
+        InitializeStageIndices();
     }
 
     private void Start()
@@ -106,7 +109,6 @@ public class GameSceneManager : MonoBehaviour
         rankingUI_Gameobject.SetActive(false);
         nekopunchUI_Gameobject.SetActive(false);
         currentScoreUI_Gameobject.SetActive(true);
-        restartButtonUI_Gameobject.SetActive(false);
         hitRateUI_Gameobject.SetActive(false);
         daylypunchUI_Gameobject.SetActive(false);
 
@@ -124,9 +126,20 @@ public class GameSceneManager : MonoBehaviour
         //移動を制限
         moveLocomotion.SetActive(false);
 
+        //PlayerPrefsから保存されたステージステートを読み込む
+        if (PlayerPrefs.HasKey("SelectedStageState"))
+        {
+            currentState = (StageState)PlayerPrefs.GetInt("SelectedStageState");
+        }
+        else
+        {
+            //デフォルトステージ
+            currentState = StageState.NyarwayOffshore;
+        }
+
         //漁場ステージをセット
-        //SelectStage(currentState);
-        SelectStage(StageState.NyarwayOffshore);
+        SelectStage(currentState);
+        //SelectStage(StageState.NyarwayOffshore);
 
         //スポーン開始
         fishSpawnManager.gameObject.SetActive(true);
@@ -169,7 +182,6 @@ public class GameSceneManager : MonoBehaviour
         rankingUI_Gameobject.SetActive(true);
         nekopunchUI_Gameobject.SetActive(true);
         currentScoreUI_Gameobject.SetActive(false);
-        restartButtonUI_Gameobject.SetActive(true);
         hitRateUI_Gameobject.SetActive(true);
         daylypunchUI_Gameobject.SetActive(true);
 
@@ -228,7 +240,7 @@ public class GameSceneManager : MonoBehaviour
     //スタートボタン
     public void OnClickStart()
     {
-        //currentScoreを初期化
+        SceneManager.LoadScene("SampleScene");
     }
 
     //次のテクスチャに変更するボタン
@@ -250,6 +262,10 @@ public class GameSceneManager : MonoBehaviour
         currentState = (StageState)nextIndex;
         SelectStage(currentState);
 
+        //漁場ステージ選択をPlayerPrefsに保存
+        PlayerPrefs.SetInt("SelectedStageState", (int)currentState);
+        PlayerPrefs.Save();
+
         //前回のスコアとヒット率を初期化
         ScoreManager.instance.InitializeCurrentScoreAndHitRate();
     }
@@ -260,6 +276,10 @@ public class GameSceneManager : MonoBehaviour
         int previousIndex = ((int)currentState - 1 + stageIndices.Count - 1) % (stageIndices.Count - 1);
         currentState = (StageState)previousIndex;
         SelectStage(currentState);
+
+        //漁場ステージ選択をPlayerPrefsに保存
+        PlayerPrefs.SetInt("SelectedStageState", (int)currentState);
+        PlayerPrefs.Save();
 
         //前回のスコアとヒット率を初期化
         ScoreManager.instance.InitializeCurrentScoreAndHitRate();
