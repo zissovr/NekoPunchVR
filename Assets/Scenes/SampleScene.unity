@@ -3409,6 +3409,51 @@ PrefabInstance:
       propertyPath: currentScoreUI_Gameobject
       value: 
       objectReference: {fileID: 1603324054}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[0]
+      value: 
+      objectReference: {fileID: 1305763800}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[1]
+      value: 
+      objectReference: {fileID: 1365020056}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[2]
+      value: 
+      objectReference: {fileID: 631465060}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[3]
+      value: 
+      objectReference: {fileID: 481074543}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[4]
+      value: 
+      objectReference: {fileID: 330429607}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[5]
+      value: 
+      objectReference: {fileID: 71173822}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[6]
+      value: 
+      objectReference: {fileID: 1062264018}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[7]
+      value: 
+      objectReference: {fileID: 1830568391}
+    - target: {fileID: 5989884881215932969, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: deckPanelCylinder.Array.data[8]
+      value: 
+      objectReference: {fileID: 1775225588}
     - target: {fileID: 8981120885345913461, guid: 973dee79ccc33ca40aede6c7058a4131,
         type: 3}
       propertyPath: m_LocalPosition.x
