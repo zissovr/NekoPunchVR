@@ -1616,6 +1616,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1584192307173549139}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1621681109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 659111192341407291, guid: 4595cd61b95c95e46b6201e33ca3f974,
+    type: 3}
+  m_PrefabInstance: {fileID: 2739351085221411699}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1625932946 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 122084618895949332, guid: 895f6f3c2d334633b5800312285058d2,
@@ -2152,6 +2164,11 @@ PrefabInstance:
       propertyPath: nekoPunchText
       value: 
       objectReference: {fileID: 2137107438}
+    - target: {fileID: 2604859190728776607, guid: 973dee79ccc33ca40aede6c7058a4131,
+        type: 3}
+      propertyPath: dailyNekoPunchText
+      value: 
+      objectReference: {fileID: 1621681109}
     - target: {fileID: 3685573097832480644, guid: 973dee79ccc33ca40aede6c7058a4131,
         type: 3}
       propertyPath: m_Name

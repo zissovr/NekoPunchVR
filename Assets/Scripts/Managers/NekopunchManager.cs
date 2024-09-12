@@ -9,8 +9,10 @@ public class NekopunchManager : MonoBehaviour
 
     [Header("UI Fields")]
     public TextMeshProUGUI nekoPunchText;
+    public TextMeshProUGUI dailyNekoPunchText;
 
     public int nekoPunch;
+    public int dailyNekoPunchCount = 0;
 
     private void Awake()
     {
@@ -37,5 +39,9 @@ public class NekopunchManager : MonoBehaviour
 
         //ネコパンチ数をアップデート
         nekoPunchText.text = nekoPunch.ToString();
+
+        //デイリー猫パンチ数を加算
+        dailyNekoPunchCount += nekoPunchPoint;
     }
+    
 }

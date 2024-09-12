@@ -74,8 +74,6 @@ public class GameSceneManager : MonoBehaviour
 
     private void Awake()
     {
-        
-
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -86,14 +84,46 @@ public class GameSceneManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
+        // シーンがロードされたときのイベントにリスナーを追加
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         //漁場ステージの名前とインデックスをマッピング
         InitializeStageIndices();
+    }
+
+    private void OnDestroy()
+    {
+        // シーンのロードイベントのリスナーを解除
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // シーンがロードされたときの処理
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (TargetsManager.instance != null)
+        {
+            // ターゲットの状態をリセット
+            ActivateSelectedStageTargets();
+        }
+        else
+        {
+            Debug.LogError("TargetsManager instance is null after scene load.");
+        }
     }
 
     private void Start()
     {
         //RayInteractorの取得と非表示
         RayInteractorDeactivate();
+
+        // シーンロード後の初期化
+        if (TargetsManager.instance != null)
+        {
+            // シーンロード後にステージのターゲットを非アクティブ化
+            TargetsManager.instance.DeactivateAllStagesOnSceneLoad();
+        }
+        // 0.5秒後にターゲットグループの表示を行う
+        StartCoroutine(SelectStageAfterDelay(0.5f));
 
         //曲の長さを取得
         audioClipLength = AudioManager.instance.musicTheme.clip.length;
@@ -120,8 +150,8 @@ public class GameSceneManager : MonoBehaviour
         mirrorButton_Gameobject.SetActive(false);
         deckPanel_Gameobject.SetActive(false);
 
-        //ターゲットの表示
-        targets_Gameobject.SetActive(true);
+        //ターゲットの非表示
+        //targets_Gameobject.SetActive(false);
 
         //移動を制限
         moveLocomotion.SetActive(false);
@@ -138,11 +168,70 @@ public class GameSceneManager : MonoBehaviour
         }
 
         //漁場ステージをセット
-        SelectStage(currentState);
+        //SelectStage(currentState);
+        SelectStageForSceneLoad(currentState);
         //SelectStage(StageState.NyarwayOffshore);
+
+        //選択されたステージのターゲットオブジェクトをアクティブ化
+        ActivateSelectedStageTargets();
 
         //スポーン開始
         fishSpawnManager.gameObject.SetActive(true);
+    }
+
+    private IEnumerator SelectStageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // 現在のステージのターゲットグループを選択する
+        int stageIndex = stageIndices[currentState];
+        TargetsManager.instance.SelectStageForSceneLoad(stageIndex);
+    }
+
+    //選択されたステージのターゲットオブジェクトをアクティブ化するメソッド
+    private void ActivateSelectedStageTargets() 
+    {
+        if (TargetsManager.instance == null)
+        {
+            Debug.LogError("TargetsManager.instance is null in ActivateSelectedStageTargets.");
+            return;
+        }
+
+        // 親オブジェクト（Targets）が非アクティブの場合、アクティブ化する
+        if (!TargetsManager.instance.gameObject.activeInHierarchy)
+        {
+            TargetsManager.instance.gameObject.SetActive(true);
+            Debug.Log("Parent object 'Targets' has been activated.");
+        }
+
+        // 選択された漁場ステージのインデックス
+        if (!stageIndices.ContainsKey(currentState))
+        {
+            Debug.LogError($"StageState {currentState} not found in stageIndices.");
+            return;
+        }
+
+        int stageIndex = stageIndices[currentState];
+
+        // すべてのステージを非アクティブにする
+        foreach (GameObject targetGroup in TargetsManager.instance.targetGroups)
+        {
+            if (targetGroup != null)
+            {
+                targetGroup.SetActive(false);
+            }
+        }
+
+        // 対象の漁場ステージをアクティブ化
+        if (TargetsManager.instance.targetGroups[stageIndex] != null)
+        {
+            TargetsManager.instance.targetGroups[stageIndex].SetActive(true);
+            Debug.Log($"Activated target group: {TargetsManager.instance.targetGroups[stageIndex].name}");
+        }
+        else
+        {
+            Debug.LogWarning($"Target group for stage index {stageIndex} is null.");
+        }
     }
 
     //RayInteractorの取得と非表示
@@ -222,6 +311,21 @@ public class GameSceneManager : MonoBehaviour
 
         //各漁場ステージのタイムオーバー処理
         TimeOverByStages(currentState);
+
+        //非同期処理でデイリーパンチを送信
+        StartCoroutine(PlayfabManager.instance.SendDailyPunchCountToPlayFab());
+
+        //デッキパネルのシリンダーを初期化
+        DeckPanelManager.instance.DeckPanelCylinderRenderer();
+
+        //デッキパネル上のシリンダーを点灯
+        DeckPanelManager.instance.DeckPanelCylinderLightOn((int)currentState);
+
+        //ヒット率ランキングUIの表示
+        RankingManager.instance.ShowHitRateRanking((int)currentState);
+
+        //ハイスコアランキングUIの表示
+        RankingManager.instance.ShowHighScoreRanking((int)currentState);
     }
 
     //分と秒に変換処理
@@ -285,6 +389,43 @@ public class GameSceneManager : MonoBehaviour
         ScoreManager.instance.InitializeCurrentScoreAndHitRate();
     }
 
+    // ステージを選択し、適切なメソッドを呼び出す
+    private void SelectStageForUI(StageState state)
+    {
+        int stageIndex = stageIndices[state];
+
+        // UI操作時にはSelectStageFor...を呼び出す
+        if (TargetsManager.instance != null)
+        {
+            TargetsManager.instance.SelectStageForUI(stageIndex);
+            DeckPanelManager.instance.SelectStageForDeckPanel(stageIndex);
+        }
+        else
+        {
+            Debug.LogError("TargetsManager.instance is null when trying to select stage for UI.");
+        }
+
+        currentState = state;
+    }
+
+    // シーンロード時にステージを選択するメソッド
+    private void SelectStageForSceneLoad(StageState state)
+    {
+        int stageIndex = stageIndices[state];
+
+        // シーンロード時にはSelectStageForSceneLoadを呼び出す
+        if (TargetsManager.instance != null)
+        {
+            TargetsManager.instance.SelectStageForSceneLoad(stageIndex);
+        }
+        else
+        {
+            Debug.LogError("TargetsManager.instance is null when trying to select stage for scene load.");
+        }
+
+        currentState = state;
+    }
+
     //ゲストモードボタン
     public void OnClickGuestMode()
     {
@@ -319,8 +460,22 @@ public class GameSceneManager : MonoBehaviour
     //漁場ステージを選択し処理を行うメソッド
     private void SelectStage(StageState state)
     {
+        if (TargetsManager.instance == null)
+        {
+            Debug.LogError("TargetsManager.instance is null. Ensure TargetsManager is in the scene and initialized.");
+            return;
+        }
+
+        if (!stageIndices.ContainsKey(state))
+        {
+            Debug.LogError($"StageState {state} not found in stageIndices.");
+        }
+
+        int stageIndex = stageIndices[state];
+
         //ステージのターゲットを表示
-        TargetsManager.instance.SelectStage(stageIndices[state]);
+        SelectStageForUI(state);
+
 
         //現在のステージを更新
         currentState = state;

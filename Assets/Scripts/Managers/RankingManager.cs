@@ -12,7 +12,7 @@ public class RankingManager : MonoBehaviour
     public int nekopunchScore;
 
     [Header("UI Fields")]
-    //public TextMeshProUGUI rankingScoreText;
+    public TextMeshProUGUI rankingScoreText;
     public TextMeshProUGUI nekopunchScoreText;
     //各ヒット率リーダーボードのUI表示用
     public TextMeshProUGUI[] rankingHitRateTexts;
@@ -37,7 +37,6 @@ public class RankingManager : MonoBehaviour
 
         instance = this;
     }
-
     //ヒット率リーダーボードの取得を開始
     public void RequestAllHitRateRanking()
     {
@@ -87,7 +86,6 @@ public class RankingManager : MonoBehaviour
             RequestHighScoreRanking(HighScoreRankingNames[i], i);
         }
     }
-
 
     //各ヒット率リーダーボードの取得
     private void RequestHitRateRanking(string statisticName, int index)
@@ -172,7 +170,6 @@ public class RankingManager : MonoBehaviour
         });
     }
 
-
     //ヒット率UIを更新するメソッド
     private void UpdateHitRateRankingUI(List<PlayerLeaderboardEntry> leaderboard, TextMeshProUGUI textComponent)
     {
@@ -229,7 +226,6 @@ public class RankingManager : MonoBehaviour
     }
 
     //[スコアランキング取得]
-    /*
     public void RequestLeaderBoard()
     {
         PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest
@@ -249,7 +245,6 @@ public class RankingManager : MonoBehaviour
         }
         );
     }
-    */
 
     //[ネコパンチランキング取得]
     public void RequestNekopunchLeaderBoard()

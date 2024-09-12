@@ -133,7 +133,12 @@ public class PlayfabManager : MonoBehaviour
         //PlayFabIdをセット
         masterPlayerAccountID = result.PlayFabId;
 
-        //GetUserData();
+        //ログイン時にデイリーパンチ数を取得
+        GetDailyPunchCount();
+
+        //ログイン時にハイスコアとヒット率のリーダーボードを取得
+        GetAllLeaderboardValues();
+        GetAllHitRateLeaderboardValues();
     }
 
     //ログイン失敗
@@ -277,7 +282,7 @@ public class PlayfabManager : MonoBehaviour
     //すべてのハイスコアリーダーボードの値を一気に取得するメソッド
     public void GetAllLeaderboardValues()
     {
-        foreach(string leaderboardName in leaderboardNames)
+        foreach(string leaderboardName in GetLeaderboardNames())
         {
             GetLeaderboardValue(leaderboardName);
         }
@@ -286,7 +291,7 @@ public class PlayfabManager : MonoBehaviour
     //すべてのヒット率リーダーボードの値を一気に取得するメソッド
     public void GetAllHitRateLeaderboardValues()
     {
-        foreach (string hitRateLeaderboardName in leaderboardHitRateNames)
+        foreach (string hitRateLeaderboardName in GetHitRateLeaderboardNames())
         {
             GetHitRateLeaderboardValue(hitRateLeaderboardName);
         }
@@ -434,6 +439,38 @@ public class PlayfabManager : MonoBehaviour
         }
     }
 
+    private List<string> GetLeaderboardNames()
+    {
+        return new List<string>
+        {
+            "HighScore_NyarwayOffshore",
+            "HighScore_NyanadaOffshore",
+            "HighScore_NyankasanOffshore",
+            "HighScore_NyalaskaOffshore",
+            "HighScore_NyaruOffshore",
+            "HighScore_NyankyokukaiOffshore",
+            "HighScore_NyaringkaiOffshore",
+            "HighScore_NyaltkaiOffshore",
+            "HighScore_NyakkaiOffshore"
+        };
+    }
+
+    private List<string> GetHitRateLeaderboardNames()
+    {
+        return new List<string>
+        {
+            "HitRate_NyarwayOffshore",
+            "HitRate_NyanadaOffshore",
+            "HitRate_NyankasanOffshore",
+            "HitRate_NyalaskaOffshore",
+            "HitRate_NyaruOffshore",
+            "HitRate_NyankyokukaiOffshore",
+            "HitRate_NyaringkaiOffshore",
+            "HitRate_NyaltkaiOffshore",
+            "HitRate_NyakkaiOffshore"
+        };
+    }
+
     //[ネコパンチランキング更新]
     public void SubmitNumberOfNekopunch()
     {
@@ -454,5 +491,89 @@ public class PlayfabManager : MonoBehaviour
         {
             Debug.Log(error.GenerateErrorReport());
         });
+    }
+
+    //ログイン時にデイリーパンチ数を取得
+    public void GetDailyPunchCount()
+    {
+        var request = new GetPlayerStatisticsRequest();
+
+        PlayFabClientAPI.GetPlayerStatistics(request, OnGetPlayerStatisticsSuccess, OnError);
+    }
+
+    private void OnGetPlayerStatisticsSuccess(GetPlayerStatisticsResult result)
+    {
+        Debug.Log("Player statistics retrieved successfully.");
+
+        var dailyPunchStat = result.Statistics.Find(stat => stat.StatisticName == "DailyNekoPunch");
+
+        if (dailyPunchStat != null)
+        {
+            NekopunchManager.instance.dailyNekoPunchCount = dailyPunchStat.Value;
+            Debug.Log("Current Daily Punch Count: " + NekopunchManager.instance.dailyNekoPunchCount);
+        }
+        else
+        {
+            Debug.Log("No data found for DailyNekoPunch. Initializing to 0.");
+            //データが存在しない場合は0で初期化
+            NekopunchManager.instance.dailyNekoPunchCount = 0;
+        }
+    }
+
+    private void OnError(PlayFabError error)
+    {
+        Debug.LogError("Error while accessing PlayFab: " + error.GenerateErrorReport());
+    }
+
+    //非同期処理でデイリーパンチを送信
+    public IEnumerator SendDailyPunchCountToPlayFab()
+    {
+        var request = new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate { StatisticName  = "DailyNekoPunch", Value = NekopunchManager.instance.dailyNekoPunchCount }
+            }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnStatisticsUpdate, OnError);
+
+        yield return new WaitForSeconds(10);
+
+        //ランキング取得
+        GetDailyNekoPunchRanking();
+    }
+
+    private void OnStatisticsUpdate(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Successfully updated player statistics.");
+    }
+
+    //デイリーパンチランキングの取得
+    private void GetDailyNekoPunchRanking()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "DailyNekoPunch",
+            StartPosition = 0,
+            MaxResultsCount = 20
+        };
+
+        PlayFabClientAPI.GetLeaderboard(request, OnDailyPunchGet, OnError);
+    }
+
+    private void OnDailyPunchGet(GetLeaderboardResult result)
+    {
+        NekopunchManager.instance.dailyNekoPunchText.text = "";
+
+        foreach (var item in result.Leaderboard)
+        {
+            Debug.Log("Get Neko Punch Ranking.");
+            //DisplayNameがNullでないか確認しnullならデフォルト名にする
+            string displayName = string.IsNullOrEmpty(item.DisplayName) ? "Unknown Player" : item.DisplayName;
+
+            NekopunchManager.instance.dailyNekoPunchText.text += $"\n{item.Position + 1}. {displayName} : {item.StatValue}";
+            Debug.Log($"\n{item.Position + 1}. {displayName} : {item.StatValue}");
+        }
     }
 }
