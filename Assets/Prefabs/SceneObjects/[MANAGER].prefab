@@ -63,6 +63,8 @@ MonoBehaviour:
   HitRate_NyaringkaiOffshore: 
   HitRate_NyaltkaiOffshore: 
   HitRate_NyakkaiOffshore: 
+  currentStagePlayerHighScore: 0
+  currentStagePlayerHitRate: 0
 --- !u!1 &1385414382662329729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1078,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 823edfaf8dd76ea46bb9db7ea15512ac, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9c0346303e341dc4291192c340b27961, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
