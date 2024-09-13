@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -43,6 +44,15 @@ public class ScoreManager : MonoBehaviour
 
         highHitRate = PlayerPrefs.GetFloat($"HighHitRate_{GameSceneManager.instance.currentState}", 0);
 
+        //初期化
+        currentScore = 0;
+        hitRate = 0;
+
+        //10秒後にハイスコアを更新しておく
+        StartCoroutine(UpdateHighScore());
+
+        //10秒後にハイヒット率を更新しておく
+        StartCoroutine(UpdateHighHitRate());
     }
 
     public void AddScore(int scorePoint)
@@ -61,7 +71,7 @@ public class ScoreManager : MonoBehaviour
         {
             PlayerPrefs.SetInt($"HighScore_{GameSceneManager.instance.currentState}", currentScore);
             highScoreText.text = currentScore.ToString();
-            PlayfabManager.instance.SubmitScore(currentScore);
+            //PlayfabManager.instance.SubmitScore(currentScore);
         }
     }
 
@@ -85,7 +95,7 @@ public class ScoreManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat($"HighHitRate_{GameSceneManager.instance.currentState}", hitRate);
             highHitRateText.text = $"{hitRate:F1}%";
-            PlayfabManager.instance.SubmitHitRate(hitRate);
+            //PlayfabManager.instance.SubmitHitRate(hitRate);
         }
     }
 
@@ -94,5 +104,52 @@ public class ScoreManager : MonoBehaviour
     {
         finalScoreText.text = "0";
         finalHitRateText.text = "0.0%";
+    }
+
+    //ハイスコアをPlayfabから取得するメソッド
+    public IEnumerator UpdateHighScore()
+    {
+        yield return new WaitForSeconds(10);
+
+        highScore = PlayfabManager.instance.currentStagePlayerHighScore;
+
+        highScoreText.text = highScore.ToString();
+    }
+
+    //ハイヒット率をPlayfabから取得するメソッド
+    public IEnumerator UpdateHighHitRate()
+    {
+        yield return new WaitForSeconds(10);
+
+        float currentStageHighHitRate = PlayfabManager.instance.currentStagePlayerHitRate;
+        highHitRate = currentStageHighHitRate / 10;
+
+        highHitRateText.text = $"{highHitRate:F1}%";
+    }
+
+    //スコアとヒット率を比較し更新が必要か確認するメソッド
+    public void CompareAndSubmitScores()
+    {
+        //ハイスコアチェック
+        if (currentScore > highScore)
+        {
+            PlayfabManager.instance.SubmitHighScore(currentScore);
+
+            //UI表示
+            highScoreText.text = currentScore.ToString();
+
+            //お祝い演出
+        }
+
+        //ハイヒット率チェック
+        if (hitRate > highHitRate)
+        {
+            PlayfabManager.instance.submitHighHitRate(hitRate);
+
+            //UI表示
+            highHitRateText.text = $"{hitRate:F1}%";
+
+            //お祝い演出
+        }
     }
 }

@@ -75,6 +75,10 @@ public class PlayfabManager : MonoBehaviour
         "HitRate_NyakkaiOffshore"
     };
 
+    //現在プレイしているステージのプレイヤーのハイスコアとハイヒット率
+    public int currentStagePlayerHighScore;
+    public int currentStagePlayerHitRate;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -98,6 +102,9 @@ public class PlayfabManager : MonoBehaviour
 
         //ヒット率リーダーボード：辞書の初期化
         InitializeHitRateLeaderboardDictionary();
+
+        //現在プレイしているステージのプレイヤーのハイスコアとハイヒット率の初期化
+        InitializePlayerScoreAndHitRate();
     }
 
     //ログイン実行
@@ -139,6 +146,9 @@ public class PlayfabManager : MonoBehaviour
         //ログイン時にハイスコアとヒット率のリーダーボードを取得
         GetAllLeaderboardValues();
         GetAllHitRateLeaderboardValues();
+
+        //シーン再生時に現在のステージの自分のハイスコアとヒット率を取得
+        GetCurrentStagePlayerScores();
     }
 
     //ログイン失敗
@@ -206,7 +216,7 @@ public class PlayfabManager : MonoBehaviour
         return stringBuilder.ToString();
     }
 
-
+    /*
     //[スコアランキング更新]
     public void SubmitScore(int playerScore)
     {
@@ -250,6 +260,7 @@ public class PlayfabManager : MonoBehaviour
             Debug.Log(error.GenerateErrorReport());
         });
     }
+    */
 
     //辞書の初期化：ハイスコアリーダーボード名をキーに変数を参照する設定
     private void InitializeLeaderboardDictionary()
@@ -576,4 +587,107 @@ public class PlayfabManager : MonoBehaviour
             Debug.Log($"\n{item.Position + 1}. {displayName} : {item.StatValue}");
         }
     }
+
+    //現在プレイしているステージのプレイヤーのハイスコアとハイヒット率の初期化
+    private void InitializePlayerScoreAndHitRate()
+    {
+        currentStagePlayerHighScore = 0;
+        currentStagePlayerHitRate = 0;
+    }
+
+    //シーン再生時に現在のステージの自分のハイスコアとヒット率を取得
+    private void GetCurrentStagePlayerScores()
+    {
+        string currentStageHighScoreName = $"HighScore_{GameSceneManager.instance.currentState}";
+        string currentStageHitRateName = $"HitRate_{GameSceneManager.instance.currentState}";
+
+        //自分のハイスコアを取得
+        GetPlayerHighScoreForCurrentStage(currentStageHighScoreName);
+
+        //自分のハイヒット率を取得
+        GetPlayerHitRateForCurrentStage(currentStageHitRateName);
+    }
+
+    //プレイ中のステージの自分のハイスコアを取得するメソッド
+    private void GetPlayerHighScoreForCurrentStage(string leaderboardName)
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = leaderboardName,
+            MaxResultsCount = 1 //自分のみ取得
+        };
+
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, result =>
+        {
+            if (result.Leaderboard.Count > 0)
+            {
+                var myEntry = result.Leaderboard[0];
+                currentStagePlayerHighScore = myEntry.StatValue;
+            }
+        }, OnError);
+    }
+
+    //プレイ中のステージの自分のハイヒット率を取得するメソッド
+    private void GetPlayerHitRateForCurrentStage(string leaderboardName)
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = leaderboardName,
+            MaxResultsCount = 1 //自分のみ取得
+        };
+
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, result =>
+        {
+            if (result.Leaderboard.Count > 0)
+            {
+                var myEntry = result.Leaderboard[0];
+                currentStagePlayerHitRate = myEntry.StatValue;
+            }
+        }, OnError);
+    }
+
+    //ハイスコアが出た場合にPlayfabに送信するメソッド
+    public void SubmitHighScore(int highScore)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate
+                {
+                    StatisticName = $"HighScore_{GameSceneManager.instance.currentState}",
+                    Value = highScore
+                }
+            }
+        }, result =>
+        {
+            //Debug.Log("スコア送信完了！");
+        }, error =>
+        {
+            Debug.Log(error.GenerateErrorReport());
+        });
+    }
+
+    //ハイヒット率が出た場合にPlayfabに送信するメソッド
+    public void submitHighHitRate(float highHitRate)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate
+                {
+                    StatisticName = $"HitRate_{GameSceneManager.instance.currentState}",
+                    Value = (int)(highHitRate * 10f)
+                }
+            }
+        }, result =>
+        {
+            //Debug.Log("ヒット率送信完了！");
+        }, error =>
+        {
+            Debug.Log(error.GenerateErrorReport());
+        });
+    }
+
 }

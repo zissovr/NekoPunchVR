@@ -226,7 +226,6 @@ public class GameSceneManager : MonoBehaviour
         if (TargetsManager.instance.targetGroups[stageIndex] != null)
         {
             TargetsManager.instance.targetGroups[stageIndex].SetActive(true);
-            Debug.Log($"Activated target group: {TargetsManager.instance.targetGroups[stageIndex].name}");
         }
         else
         {
@@ -326,6 +325,9 @@ public class GameSceneManager : MonoBehaviour
 
         //ハイスコアランキングUIの表示
         RankingManager.instance.ShowHighScoreRanking((int)currentState);
+
+        //スコアとヒット率を比較し更新が必要か確認するメソッド
+        ScoreManager.instance.CompareAndSubmitScores();
     }
 
     //分と秒に変換処理
@@ -694,15 +696,15 @@ public class GameSceneManager : MonoBehaviour
         //現在の漁場ステージの自分のハイスコアと順位を取得
         PlayfabManager.instance.GetAllLeaderboardValues();
 
-        //ハイスコアの表示
+        //8秒後にハイスコアの表示
         //ScoreManager.instance.highScoreText.text = ScoreManager.instance.highScore.ToString();
-        RankingManager.instance.RequestAllHighScoreRanking();
+        StartCoroutine(GetHighScoreLeaderboard());
 
         //ヒット率の送信
         ScoreManager.instance.HitRate();
 
-        //ヒット率ランキングの取得と表示
-        RankingManager.instance.RequestAllHitRateRanking();
+        //8秒後にヒット率ランキングの取得と表示
+        StartCoroutine(GetHighHitRateLeaderboard());
 
         //現在の漁場ステージの自分のヒット率と順位を取得
         PlayfabManager.instance.GetAllHitRateLeaderboardValues();
@@ -807,5 +809,21 @@ public class GameSceneManager : MonoBehaviour
     private void TimeOverNyakkaiOffshore(StageState state)
     {
         Debug.Log($"{state}ステージが終了しました。");
+    }
+
+    //8秒後にハイスコアランキングを更新
+    private IEnumerator GetHighScoreLeaderboard()
+    {
+        yield return new WaitForSeconds(8);
+
+        RankingManager.instance.RequestAllHighScoreRanking();
+    }
+
+    //8秒後にヒット率ランキングを更新
+    private IEnumerator GetHighHitRateLeaderboard()
+    {
+        yield return new WaitForSeconds(8);
+
+        RankingManager.instance.RequestAllHitRateRanking();
     }
 }
