@@ -1566,7 +1566,7 @@ MonoBehaviour:
   rightRayInteractor: {fileID: 0}
   leftRayInteractor: {fileID: 0}
   moveLocomotion: {fileID: 0}
-  currentState: 2
+  currentState: 0
 --- !u!1 &7693079857310501891
 GameObject:
   m_ObjectHideFlags: 0

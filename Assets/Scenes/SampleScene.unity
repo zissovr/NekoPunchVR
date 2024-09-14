@@ -3333,11 +3333,6 @@ PrefabInstance:
       objectReference: {fileID: 1855660510}
     - target: {fileID: 5809298912923260694, guid: 973dee79ccc33ca40aede6c7058a4131,
         type: 3}
-      propertyPath: currentState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5809298912923260694, guid: 973dee79ccc33ca40aede6c7058a4131,
-        type: 3}
       propertyPath: textPlayfabID
       value: 
       objectReference: {fileID: 2123295996}
