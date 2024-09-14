@@ -54,6 +54,15 @@ public class DeckPanelManager : MonoBehaviour
 
     public void DeckPanelCylinderLightOn(int stageIndex)
     {
+        //全てのシリンダーマテリアルをデフォルトに戻す
+        for (int i = 0; i < deckPanelRenderers.Length; i++)
+        {
+            if (deckPanelRenderers[i] != null)
+            {
+                deckPanelRenderers[i].material = defaultMaterial;
+            }
+        }
+
         // 選択されたステージのデッキパネル上のシリンダーを点灯させる
         if (stageIndex < deckPanelRenderers.Length && deckPanelRenderers[stageIndex] != null)
         {

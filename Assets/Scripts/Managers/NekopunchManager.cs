@@ -10,6 +10,7 @@ public class NekopunchManager : MonoBehaviour
     [Header("UI Fields")]
     public TextMeshProUGUI nekoPunchText;
     public TextMeshProUGUI dailyNekoPunchText;
+    public TextMeshProUGUI playerDailyNekoPunchText;
 
     public int nekoPunch;
     public int dailyNekoPunchCount = 0;
@@ -42,6 +43,7 @@ public class NekopunchManager : MonoBehaviour
 
         //デイリー猫パンチ数を加算
         dailyNekoPunchCount += nekoPunchPoint;
+        playerDailyNekoPunchText.text = dailyNekoPunchCount.ToString();
     }
     
 }

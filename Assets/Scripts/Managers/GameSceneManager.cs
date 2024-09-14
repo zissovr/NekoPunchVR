@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
+using static GameSceneManager;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class GameSceneManager : MonoBehaviour
     public GameObject moveLocomotion;
 
     //オーディオの長さの変数
-    float audioClipLength;
+    //float audioClipLength;
 
     //現在の漁場ステージステート
     public StageState currentState = 0;
@@ -89,6 +90,9 @@ public class GameSceneManager : MonoBehaviour
 
         //漁場ステージの名前とインデックスをマッピング
         InitializeStageIndices();
+
+        //PlayerPrefsから保存されたステージステートを読み込む
+        LoadStageState();
     }
 
     private void OnDestroy()
@@ -125,11 +129,12 @@ public class GameSceneManager : MonoBehaviour
         // 0.5秒後にターゲットグループの表示を行う
         StartCoroutine(SelectStageAfterDelay(0.5f));
 
-        //曲の長さを取得
-        audioClipLength = AudioManager.instance.musicTheme.clip.length;
+        //曲の長さを取得し再生
+        //audioClipLength = AudioManager.instance.musicTheme.clip.length;
+        AudioManager.instance.PlayWithMusicTheme((int)currentState);
 
         //曲のカウントダウンをスタートさせる
-        StartCoroutine(StartCountdown(audioClipLength));
+        StartCoroutine(StartCountdown(AudioManager.instance.audioClipLength));
 
         //プログレスバーを初期化
         progressBarImage.fillAmount = Mathf.Clamp(0, 0, 1);
@@ -156,17 +161,6 @@ public class GameSceneManager : MonoBehaviour
         //移動を制限
         moveLocomotion.SetActive(false);
 
-        //PlayerPrefsから保存されたステージステートを読み込む
-        if (PlayerPrefs.HasKey("SelectedStageState"))
-        {
-            currentState = (StageState)PlayerPrefs.GetInt("SelectedStageState");
-        }
-        else
-        {
-            //デフォルトステージ
-            currentState = StageState.NyarwayOffshore;
-        }
-
         //漁場ステージをセット
         //SelectStage(currentState);
         SelectStageForSceneLoad(currentState);
@@ -174,6 +168,8 @@ public class GameSceneManager : MonoBehaviour
 
         //選択されたステージのターゲットオブジェクトをアクティブ化
         ActivateSelectedStageTargets();
+
+        fishSpawnManager.SetSpawnProfile(profiles[(int)currentState]);
 
         //スポーン開始
         fishSpawnManager.gameObject.SetActive(true);
@@ -251,7 +247,7 @@ public class GameSceneManager : MonoBehaviour
 
             timeText.text = ConvertToMinAndSeconds(countdownValue);
 
-            progressBarImage.fillAmount = (AudioManager.instance.musicTheme.time / audioClipLength);
+            progressBarImage.fillAmount = (AudioManager.instance.musicThemes[(int)currentState].time / AudioManager.instance.audioClipLength);
         }
         TimeOver();
     }
@@ -328,6 +324,20 @@ public class GameSceneManager : MonoBehaviour
 
         //スコアとヒット率を比較し更新が必要か確認するメソッド
         ScoreManager.instance.CompareAndSubmitScores();
+    }
+
+    //PlayerPrefsから保存されたステージステートを読み込むメソッド
+    private void LoadStageState()
+    {
+        if (PlayerPrefs.HasKey("SelectedStageState"))
+        {
+            currentState = (StageState)PlayerPrefs.GetInt("SelectedStageState");
+        }
+        else
+        {
+            //デフォルトステージ
+            currentState = StageState.NyarwayOffshore;
+        }
     }
 
     //分と秒に変換処理

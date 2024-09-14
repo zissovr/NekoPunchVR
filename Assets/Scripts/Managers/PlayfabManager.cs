@@ -521,6 +521,7 @@ public class PlayfabManager : MonoBehaviour
         if (dailyPunchStat != null)
         {
             NekopunchManager.instance.dailyNekoPunchCount = dailyPunchStat.Value;
+            NekopunchManager.instance.playerDailyNekoPunchText.text = dailyPunchStat.Value.ToString();
             Debug.Log("Current Daily Punch Count: " + NekopunchManager.instance.dailyNekoPunchCount);
         }
         else
