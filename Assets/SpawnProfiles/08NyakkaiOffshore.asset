@@ -105,6 +105,15 @@ MonoBehaviour:
         - Time: 5
           SpawnTime:
             rid: 8979274575042838559
+        - Time: 3
+          SpawnTime:
+            rid: 8979274575042838558
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838559
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838548
         - Time: 5
           SpawnTime:
             rid: 8979274575042838548
@@ -113,13 +122,28 @@ MonoBehaviour:
             rid: 8979274575042838549
         - Time: 5
           SpawnTime:
+            rid: 8979274575042838549
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838549
+        - Time: 5
+          SpawnTime:
             rid: 8979274575042838550
-        - Time: 8
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838550
+        - Time: 5
+          SpawnTime:
+            rid: 8979274575042838550
+        - Time: 15
           SpawnTime:
             rid: 8979274575042838551
-        - Time: 8
+        - Time: 15
           SpawnTime:
             rid: 8979274575042838552
+        - Time: 50
+          SpawnTime:
+            rid: 8979274575042838553
         - Time: 30
           SpawnTime:
             rid: 8979274575042838553
