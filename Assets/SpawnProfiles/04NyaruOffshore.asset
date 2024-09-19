@@ -102,7 +102,7 @@ MonoBehaviour:
       data:
         Delay: 0.6
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 8426145929124126237, guid: 4e4d3a8d76301664081f9a7d474504bd, type: 3}
     - rid: 8979274575042838534
       type: {class: ArraySpawnTime, ns: , asm: Assembly-CSharp}
       data:
@@ -117,4 +117,4 @@ MonoBehaviour:
           Delay: 0.52
         IsLoop: 1
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 8426145929124126237, guid: 4e4d3a8d76301664081f9a7d474504bd, type: 3}

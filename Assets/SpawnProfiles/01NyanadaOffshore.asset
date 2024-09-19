@@ -38,4 +38,4 @@ MonoBehaviour:
         MinDelay: 0.5
         MaxDelay: 0.9
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 4433644613619476488, guid: 7231edd0f5949304298476b2f2d8137f, type: 3}

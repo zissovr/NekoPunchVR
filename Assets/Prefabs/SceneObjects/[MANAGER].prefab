@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterPlayerAccountID: 
+  playfabDisplayName: 
   HighScore_NyarwayOffshore: 
   HighScore_NyanadaOffshore: 
   HighScore_NyankasanOffshore: 
@@ -1548,6 +1549,7 @@ MonoBehaviour:
   textDeckNamePanel: {fileID: 0}
   textDeckNyancoin: {fileID: 0}
   textPlayfabID: {fileID: 0}
+  textDisplayName: {fileID: 0}
   targets_Gameobject: {fileID: 0}
   gyojyoTitle: {fileID: 0}
   textGyojyoTital: {fileID: 0}
@@ -1556,7 +1558,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c6306fe0919ed834482362b633353a4a, type: 2}
   - {fileID: 11400000, guid: 06bfef0f0ac40424f8ba2dd0cc9144c1, type: 2}
   - {fileID: 11400000, guid: 9bf2a83c805ee4a46928ef2cd79c4de1, type: 2}
-  - {fileID: 11400000, guid: 06bfef0f0ac40424f8ba2dd0cc9144c1, type: 2}
+  - {fileID: 11400000, guid: 573da78e4cc9ee8459941e37b4a2e1ea, type: 2}
   - {fileID: 11400000, guid: 35ee0c458e4d5db429998c9186a246b4, type: 2}
   - {fileID: 11400000, guid: 1751b810e8c6509488dd3d2a05178270, type: 2}
   - {fileID: 11400000, guid: 7ec413bded1ed734aa0810a5b4e20f11, type: 2}
@@ -1566,7 +1568,7 @@ MonoBehaviour:
   rightRayInteractor: {fileID: 0}
   leftRayInteractor: {fileID: 0}
   moveLocomotion: {fileID: 0}
-  currentState: 0
+  currentState: 2
 --- !u!1 &7693079857310501891
 GameObject:
   m_ObjectHideFlags: 0

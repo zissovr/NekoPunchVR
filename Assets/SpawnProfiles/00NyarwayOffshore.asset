@@ -37,5 +37,5 @@ MonoBehaviour:
       data:
         Delay: 2
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 16096790810146585, guid: 640ba51052c0bf14ca7d29095296946d, type: 3}
         - {fileID: 16096790810146585, guid: 640ba51052c0bf14ca7d29095296946d, type: 3}

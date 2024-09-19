@@ -29,6 +29,7 @@ public class GameSceneManager : MonoBehaviour
     public TextMeshProUGUI textDeckNamePanel;
     public TextMeshProUGUI textDeckNyancoin;
     public TextMeshProUGUI textPlayfabID;
+    public TextMeshProUGUI textDisplayName;
     //スコアターゲットのオブジェクト
     public GameObject targets_Gameobject;
     //漁場タイトル
@@ -721,6 +722,9 @@ public class GameSceneManager : MonoBehaviour
 
         //DeckPanelにPlayfabIDを設定
         textPlayfabID.text = PlayfabManager.instance.masterPlayerAccountID;
+
+        //DeckPanelにDisplayNameを設定
+        textDisplayName.text = PlayfabManager.instance.playfabDisplayName;
 
         //漁場ステージ毎の処理をswitch文で実装
         switch (state)

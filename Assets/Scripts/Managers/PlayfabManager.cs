@@ -16,8 +16,11 @@ public class PlayfabManager : MonoBehaviour
     //ログイン時に使うID
     private string _customID;
 
-    // 取得したMaster Player Account IDを保存する変数
+    //取得したMaster Player Account IDを保存する変数
     public string masterPlayerAccountID;
+
+    //取得したDisplay Nameを保存する変数
+    public string playfabDisplayName;
 
     //ハイスコアリーダーボードの名前ごとにハイスコアを保持する変数
     public string HighScore_NyarwayOffshore;
@@ -149,6 +152,9 @@ public class PlayfabManager : MonoBehaviour
 
         //シーン再生時に現在のステージの自分のハイスコアとヒット率を取得
         GetCurrentStagePlayerScores();
+
+        //ユーザー情報を取得しDisplayNameを変数にセット
+        GetUserDisplayName();
     }
 
     //ログイン失敗
@@ -689,6 +695,34 @@ public class PlayfabManager : MonoBehaviour
         {
             Debug.Log(error.GenerateErrorReport());
         });
+    }
+
+    //ユーザー情報を取得しDisplayNameを変数にセットするメソッド
+    private void GetUserDisplayName()
+    {
+        var request = new GetAccountInfoRequest();
+
+        PlayFabClientAPI.GetAccountInfo(request, OnGetAccountInfoSuccess, OnGetAccountInfoFailure);
+    }
+
+    //アカウント情報取得成功時のコールバック
+    private void OnGetAccountInfoSuccess(GetAccountInfoResult result)
+    {
+        string displayName = result.AccountInfo.TitleInfo.DisplayName;
+
+        if (string.IsNullOrEmpty(displayName))
+        {
+            //DisplayNameが設定されていない場合のデフォルト名
+            displayName = "Unknown Player";
+        }
+
+        playfabDisplayName = displayName;
+    }
+
+    //アカウント情報失敗時のコールバック
+    private void OnGetAccountInfoFailure(PlayFabError error)
+    {
+        Debug.LogError("Failed to get account info " + error.GenerateErrorReport());
     }
 
 }

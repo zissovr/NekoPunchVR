@@ -117,11 +117,11 @@ MonoBehaviour:
           Delay: 0.52
         IsLoop: 1
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 3670079775026110835, guid: fe203d3e0f5471c4499cae0d3cf7d3b7, type: 3}
     - rid: 8979274575042838537
       type: {class: RandomSpawnTime, ns: , asm: Assembly-CSharp}
       data:
         MinDelay: 0.5
         MaxDelay: 0.7
         FishPrefabs:
-        - {fileID: 1722060936462307928, guid: 590716a94d509fe4c8fd16d935921b44, type: 3}
+        - {fileID: 3670079775026110835, guid: fe203d3e0f5471c4499cae0d3cf7d3b7, type: 3}
