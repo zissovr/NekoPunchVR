@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FishPhysics : MonoBehaviour
 {
+    private const int HIT_FISH_LAYER = 7;
+
     //魚の移動の力
     public float force;
 
@@ -37,6 +39,8 @@ public class FishPhysics : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        gameObject.layer = HIT_FISH_LAYER;
+
         //魚がターゲットEasyに当たったら
         if (collision.gameObject.CompareTag("TargetEasy"))
         {
