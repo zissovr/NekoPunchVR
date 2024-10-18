@@ -47,6 +47,7 @@ public class ScoreManager : MonoBehaviour
         //初期化
         currentScore = 0;
         hitRate = 0;
+        HitFish = 0;
 
         //10秒後にハイスコアを更新しておく
         StartCoroutine(UpdateHighScore());
